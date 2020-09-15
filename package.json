@@ -1,0 +1,19 @@
+{
+  "name": "saborsazzon",
+  "version": "1.0.0",
+  "description": "**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://arroyopablo@bitbucket.org/desarrollo21/saborsazzon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/desarrollo21/saborsazzon#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
