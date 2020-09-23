@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Registro</title>	
+    <%- include ("./partials/head") %>
+</head>
+<body class="login">
+	<!---menu de navegacion superior-->
+	<%- include ("./partials/navigation") %>
+
+	<!---mensaje de error-->
+	<ul class="text-center errores">
+		<% if(typeof errors != 'undefined'){ %> <% errors.forEach(error=>{ %>
+			<li><%= error.message  %></li>
+		<% }) %> <% } %>
+	</ul>
+
+	<form action="/registro" class="formulario text-center" method="POST">
+		<h1 class="pacifico grande azul">Registrate</h1>
+		<div class="contenedor">
+			
+			<div class="input-contenedor">
+				<i class="fas fa-phone-square icon"></i>
+				<input type="text" id="celular" name="celular" placeholder="Número de telefono" required>
+			</div>
+
+			<div class="input-contenedor">
+				<i class="fas fa-user icon"></i>
+				<input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+			</div>
+
+			<div class="input-contenedor">
+				<i class="fas fa-user icon"></i>
+				<input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
+			</div>
+
+			<div class="input-contenedor">
+				<i class="fas fa-home icon"></i>
+				<input type="text" id="direccion" name="direccion" placeholder="Dirección" required>
+			</div>
+
+			<div class="input-contenedor">
+				<i class="far fa-calendar icon"></i>
+				<input type="date" id="nacimiento" name="nacimiento" placeholder="Fecha de nacimiento" required>
+			</div>
+
+			<div class="input-contenedor">
+				<i class="fas fa-envelope icon"></i>
+				<input type="text" id="email" name="email" placeholder="Correo Electronico" required>
+			</div>
+
+			<div class="input-contenedor">
+				<i class="fas fa-address-card icon"></i>
+				<input type="text" id="cedula" name="cedula" placeholder="Número de cédula" required>
+			</div>
+
+			<div class="input-contenedor">
+				<i class="fas fa-key icon"></i>
+				<input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+			</div>
+			
+			<div class="input-contenedor">
+				<i class="fas fa-key icon"></i>
+				<input type="password" id="contrasena2" name="contrasena2" placeholder="Confirmar contraseña" required>
+			</div>
+
+			<input type="submit" value="Registrate" class="button">
+			<p class="text-center">Al registrarte, aceptas nuestra Política de privacidad y nuestras Condiciones de uso general</p>
+			<p class="text-center">¿Ya tienes una cuenta? <a class="link" href="/login">Iniciar Sesión</a></p>
+		</div>
+	</form>
+</body>
+</html>

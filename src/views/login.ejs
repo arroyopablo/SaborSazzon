@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Iniciar sesión</title>
+	<%- include ("./partials/head") %>
+</head>
+<body class="login">
+	<!---menu de navegacion superior-->
+	<%- include ("./partials/navigation") %>
+	
+
+	<form action="/login" method="POST" class="formulario text-center">
+		<h1 class="pacifico grande azul">Inicia Sesión</h1>
+		<div class="contenedor">
+
+			<div class="input-contenedor">
+				<i class="fas fa-address-card icon"></i>
+				<input type="text" id="cedula_login" name="cedula_login" placeholder="Número de cédula" required>
+			</div>
+
+			<div class="input-contenedor">
+				<i class="fas fa-key icon"></i>
+				<input type="password" id="contrasena_login" name="contrasena_login" placeholder="Contraseña" required>
+			</div>
+			<input type="submit" value="Ingresar" class="button">
+			<p class="text-center">Al registrarte, aceptas nuestra Política de privacidad y nuestras Condiciones de uso
+				general</p>
+			<p class="text-center">¿No tienes una cuenta? <a class="link" href="/registro">Registrate</a></p>
+		</div>
+	</form>
+</body>
+
+</html>

@@ -1,0 +1,323 @@
+body {
+    background: white;
+  }
+  
+  .img-header{
+      position: relative;
+      width: 100%;
+         height: calc(100vh - 67px);
+      background:url(/img/fondo-comida.jpg);
+      background-attachment: fixed;
+      background-position: initial;
+      background-size: cover;
+      
+  }
+  
+  .about-gallery{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+  }
+  
+  .about-gallery img{
+      width: calc(33.333% - 10px);
+      height: 300px;
+      margin: 10px 10px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+  }
+  
+  .img-header .welcome{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 22, 40, .6);
+  
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+  }
+  
+  .navbar-brand {
+    font-family: 'Spicy Rice', cursive;
+    font-size: 1.5rem;
+  }
+  
+  .nav-link {
+    text-transform: uppercase;
+    font-family: 'Spicy Rice', cursive;
+  }
+  
+  header img {
+    width: 60%;
+  }
+  
+  .login{
+      background-image: url("https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
+      background-size: cover;
+      background-attachment: fixed;
+  }
+  
+  .icon{
+      min-width: 50px;
+      font-size: 22px;
+      text-align: center;
+      color: gray;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  input[type="date"],
+  input[type="number"]{
+      font-size: 20px;
+      width: 82%;
+      padding: 10px;
+      border: none;
+  }
+  
+  .button{
+      border: none;
+      width: 100%;
+      color: white;
+      font-size: 20px;
+      background: #009FFF;
+      padding: 15px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+  }
+  
+  .button:hover{
+      background: cadetblue;
+  }
+  
+  .errores{
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      background-color: red;
+      margin-top: 50px;
+  }
+  
+  .mensaje_exito{
+      color: yellow;
+      font-size: 20px;
+      font-weight: bold;
+      background-color: black;
+      margin-top: 50px;
+  }
+  
+  .link{
+      text-decoration: none;
+      color: #009FFF; 
+      font-weight: 600;
+  }
+  .link:hover{
+      color: cadetblue;
+  }
+  
+  @media(min-width: 768px){
+      .formulario{
+          margin: auto;
+          width: 500px;
+          margin-top: 150px;
+          border-radius: 2%;
+      }
+  }
+  
+  .contenedor{
+      width: 100%;
+      padding: 15px;
+  }
+  
+  .input-contenedor{
+      margin-bottom: 15px;
+      border: 1px solid #aaa;
+  }
+  
+  .formulario{
+      background: #fff;
+      margin-top: 100px;
+      padding: 3px;
+  }
+  /*-----------------------------------------------------------------------------------------------------*/
+  
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      min-width: 160px;
+      background-color: #212529;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+  
+    .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+    
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {display: block;}
+    
+    .separacion{
+        padding-top: 3cm;
+    }
+  
+  /*recomedados*/
+  .our-projects{
+      position: relative;
+      width: 100%;
+      height: 100%; 
+      background: url(/img/motero-motorista.jpg);
+      background-attachment:fixed;
+      background-position: center;
+      background-size: cover;
+      margin-top: 100px;
+  }
+  .our-projects .deg-background{
+      position:absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:rgba(0,0,0,0.8);
+  }
+  .our-projects .ejeZproject{
+      position: relative;
+      width: 100%;
+      height: 100%;
+  }
+  .our-projects .container-project{
+      width: 90%;
+      margin:auto;
+      padding-top: 100px;
+  }
+  .our-projects .container-project .project-title{
+      border:1px solid #fff;
+      padding:10px;
+      text-align: center;
+      width: 50%;
+      margin: auto;
+  }
+  .our-projects .container-project .project-title h2{
+      font-size: 40px;
+      color: #fff;
+      font-weight: normal;
+  }
+  .our-projects .container-project .project-title hr{
+     background:#fff;
+     width: 50%;
+     height: 3px;
+     margin: 10px auto;
+  }
+  .our-projects .container-project .project-img{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 80px;
+      padding-bottom: 100px;
+  }
+  .our-projects .container-project .project-img img{
+    width: calc(30% - 10px);
+    margin:10px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  @media only screen and (max-width:773px){
+      .our-projects .container-project .project-img img{width: 80%; margin-bottom: 30px;}
+  }
+  @media only screen and (max-width:446px){
+      .our-projects .container-project .project-title h2{font-size: 30px;}
+  }
+  
+  .testimonios{
+      width: 100%;
+      margin-top: 120px;
+      background: url(/img/Banner4.jpg);
+  }
+  .testimonios .testimonios-title{
+     border:2px solid #000000;
+     padding:10px;
+     text-align: center;
+     width: 50%;
+     margin: auto;
+  }
+  .testimonios .testimonios-title h2{
+      font-size: 50px;
+      font-weight: normal;
+      color: var(--black);
+      margin-bottom: 10px;
+  }
+  .testimonios .testimonios-title hr{
+      width: 60%;
+      height: 2px;
+      margin:auto;
+      background: var(--black);
+  }
+  .testimonios .box-testimonio{
+      width: 90%;
+      margin: 80px auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+  }
+  .testimonios .box-testimonio .card-testimonio{
+      width: 45%;
+      margin: 20px;
+  }
+  .testimonios .box-testimonio .card-testimonio .card-img{
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+  }
+  .testimonios .box-testimonio .card-testimonio .card-img img{
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+  }
+  .testimonios .box-testimonio .card-testimonio .testimonio-text{
+      border: 2px solid #D8C4C0;
+      padding:20px;
+      border-radius: 20px;
+      transition: 0.1s;
+      cursor: pointer;
+  }
+  .testimonios .box-testimonio .card-testimonio .testimonio-text h4{
+      font-size: 30px;
+      font-weight: 400;
+      color: #D8C4C0;
+      text-align: center;
+      margin-bottom: 10px;
+      transition: 0.1s;
+  }
+  .testimonios .box-testimonio .card-testimonio .testimonio-text p{
+      font-size: 20px;
+      text-align: center;
+      line-height: 40px;
+      color:#D8C4C0;
+  }
+  .testimonios .box-testimonio .card-testimonio .testimonio-text:hover{
+      border: 2px solid var(--blue);
+  }
+  .testimonios .box-testimonio .card-testimonio .testimonio-text:hover h4{
+      color: var(--blue);
+  }
+  
+  @media only screen and (max-width:890px)
+  {
+      .testimonios .box-testimonio .card-testimonio .card-img img{width: 200px; height: 200px;}
+      .testimonios .box-testimonio .card-testimonio{width: 100%;}
+      .testimonios .box-testimonio .card-testimonio .testimonio-text h4{font-size: 25px;}
+      .testimonios .box-testimonio .card-testimonio .testimonio-text p{font-size: 17px; line-height: 35px;}
+     }
