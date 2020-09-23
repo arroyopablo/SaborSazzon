@@ -1,4 +1,4 @@
-# Mande -  Proyecto final bases de datos
+# Saborsazzon -  Proyecto final Desarrollo de Software II
 ## Autores: Pablo Andres Arroyo - Juan Pablo Rendon - Sebastian Serna
 
 _Saborsazzon es un restaurante que cuenta con todos los protocolos de bioseguridad para una atención segura
