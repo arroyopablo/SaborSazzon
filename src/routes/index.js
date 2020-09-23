@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('index', { title: 'Mande' });
+    res.render('index', { title: 'Saborsazzon' });
   });
   
   router.get('/about', (req, res) => {
