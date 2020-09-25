@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node src",
     "nodemon": "nodemon src"
-    
   },
   "repository": {
     "type": "git",
@@ -24,7 +23,8 @@
     "express-session": "^1.17.1",
     "middleware": "^1.0.0",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "pg-promise": "^10.6.1"
   },
   "engines": {
     "node": "12.5.0",
