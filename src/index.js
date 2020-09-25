@@ -18,6 +18,7 @@ app.use(require('./routes'));
 
 // static files
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'models')));
 
 // listening the Server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
