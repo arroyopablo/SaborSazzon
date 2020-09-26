@@ -24,6 +24,7 @@
     "middleware": "^1.0.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
+    "pg": "^8.3.3",
     "pg-promise": "^10.6.1"
   },
   "engines": {
