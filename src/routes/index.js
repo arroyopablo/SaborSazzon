@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const { db } = require('./dbConfig');
 const bcrypt = require("bcrypt");
 const session = require('express-session');
 const flash = require('express-flash');
