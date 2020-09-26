@@ -18,6 +18,6 @@ function insertUser(user, correo_user,apodo_user,contraseña_user, nombres_user,
     
 };
 
-module.exports = insertUser;
 
+module.exports = insertUser;
 
