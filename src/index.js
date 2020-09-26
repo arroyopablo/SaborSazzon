@@ -14,7 +14,7 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 
 // routes
-app.use(require('./routes/appRoutes'));
+app.use(require('./routes'));
 
 // static files
 app.use(express.static(path.join(__dirname, 'public')));
