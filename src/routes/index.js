@@ -1,12 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const { client } = require('../models/dbConfig');
 const bcrypt = require("bcrypt");
 const session = require('express-session');
 const flash = require('express-flash');
-
-var pgp = require("pg-promise")(/*options*/);
-var db = pgp("postgres://ukgerkfqbjoyxb:2e4f52321c055f56a6880dd07d259a0cf228d474ff18bcb0e66a700f357c5c65@ec2-54-86-57-171.compute-1.amazonaws.com:5432/dcep7v2k1ggvsr");
-
 
 router.use(express.urlencoded({extended: false}));
 
@@ -40,36 +37,38 @@ router.get('/', (req, res) => {
 
   //Registar un cliente-------------------------------------------
   router.post('/registro',async (req, res) => {
-    let{correo_user,apodo_user,contraseña_user, contraseña_user2, nombres_user, paterno_user, materno_user} = req.body;
+    let{correo_user, contrasena_user, apodo_user, nombres_user, materno_user, paterno_user, contrasena_user2} = req.body;
 
     console.log({
-      correo_user,apodo_user,contraseña_user, contraseña_user2, nombres_user, paterno_user, materno_user
+      correo_user, contrasena_user, apodo_user, nombres_user, materno_user, paterno_user, contrasena_user2
     });
   
     let errors =[];
   
-    if(!correo_user || !apodo_user || !contraseña_user || !contraseña_user2 || !nombres_user || !paterno_user || !materno_user){
+    if(!correo_user || !apodo_user || !contrasena_user || !contrasena_user2 || !nombres_user || !paterno_user || !materno_user){
       errors.push({message: "Por favor llenar todos los campos"});
     }
   
-    if(contraseña_user.length < 6){
+    if(contrasena_user.length < 6){
       errors.push({message: "La contraseña debe ser de al menos 6 caracteres"});
     }
   
-    if(contraseña_user != contraseña_user2){
+    if(contrasena_user != contrasena_user2){
       errors.push({message: "La contraseña no coincide"});
     }
   
     if(errors.length > 0){
       res.render("registro", {errors});
     }else{
-      let hashedContrasena= await bcrypt.hash(contraseña_user, 10);
+      //encriptar contraseña
+      let hashedContrasena= await bcrypt.hash(contrasena_user, 10);
+      console.log("hashedContrasena: ");
       console.log(hashedContrasena);
-      db.connect()
-      db.query(
+      client.connect()
+      client.query(
         `SELECT * FROM cliente
-          WHERE correo_user = $1 or apodo_user = $2`,
-        [apodo_user, correo_user],
+          WHERE correo_cliente = '` + `$1` + `';`,
+        [],
         (err, results) => {
           if (err) {
             console.log(err);
@@ -80,10 +79,10 @@ router.get('/', (req, res) => {
             errors.push({message: "El usuario ya se encuentra registrado, prueba con una cédula o celular diferente"});
             res.render("registro", {errors});
           }else{
-            db.query(
-              `INSERT INTO cliente VALUES ($1, $2, $3, $4, $5, $6, $7)
-              RETURNING correo_user`, 
-              [correo_user,apodo_user, nombres_user, paterno_user, materno_user, hashedContrasena],
+            client.query(
+              `INSERT INTO cliente VALUES ($1, $2, $3, $4, $5, $6, 1, 1)
+              RETURNING correo_cliente`, 
+              [correo_user, hashedContrasena, apodo_user, nombres_user, materno_user, paterno_user],
               (err, results) => {
                 if (err) {
                   throw err;
