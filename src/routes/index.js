@@ -43,6 +43,10 @@ router.get('/', (req, res) => {
     res.render('loginadmin', { title: 'Login Admin' });
   });
 
+  router.get('/admin', (req, res) => {
+    res.render('admin', { title: 'Admin' });
+  });
+
   //Registar un cliente-------------------------------------------
   router.post('/registro',async (req, res) => {
     let{correo_user, contrasena_user, apodo_user, nombres_user, materno_user, paterno_user, contrasena_user2} = req.body;
