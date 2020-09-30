@@ -35,6 +35,10 @@ router.get('/', (req, res) => {
     res.render('registro', { title: 'Registro de usuario' });
   });
 
+  router.get('/cliente', (req, res) => {
+    res.render('cliente', { title: 'Cliente Principal' });
+  });
+
   //Registar un cliente-------------------------------------------
   router.post('/registro',async (req, res) => {
     let{correo_user, contrasena_user, apodo_user, nombres_user, materno_user, paterno_user, contrasena_user2} = req.body;

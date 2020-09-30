@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <%- include ("./partials/head") %>
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+    <!---menu de navegacion cliente superior-->
+    <%- include ("./partials/navcliente") %>
+    
+    <!---Reservacion-->
+
+        
+    <div id="booking" class="section">
+		<div class="section-center">
+			<div class="container">
+				<div class="row">
+					<div class="booking-form">
+						<form>
+							<div class="row no-margin">
+								
+								<div class="col-md-6">
+									<div class="row no-margin">
+										<div class="col-md-5">
+											<div class="form-group">
+												<span class="form-label">Dia</span>
+												<input class="form-control" type="date" required>
+											</div>
+										</div>
+										<div class="col-md-5">
+											<div class="form-group">
+												<span class="form-label">Hora</span>
+												<select class="form-control">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+												</select>
+												<span class="select-arrow"></span>
+											</div>
+										</div>
+										<div class="col-md-2">
+											<div class="form-group">
+												<span class="form-label">Personas</span>
+												<select class="form-control">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+												</select>
+												<span class="select-arrow"></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-btn">
+										<button class="submit-btn">Reservar</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+    
+    <form action="/cliente"  class="formulario text-center">
+		<h1 class="pacifico grande azul">¿Ya estas en nuestro restaurante?</h1>
+		<div class="contenedor">
+
+
+			
+				
+				<p class= "form-control-static">Inicia el chat para que uno de nuestros meseros tenga el gusto de atenderte.</p>
+			
+			<input type="submit" value="Iniciar Chat" class="button">
+			
+			
+		</div>
+	</form>
+      
+
+
+     
+
+    <!-- Menu -->
+    <%- include ("./partials/menu") %>
+
+    <!-- section one -->
+    <div class="container-fluid" id="about">
+        <div class="row bg-warning p-5 text-center">
+          <div class="col-sm-6">
+            <i class="fas fa-hand-point-right fa-10x"></i>  
+          </div>
+          <div class="col-sm-6">
+            <h3>No nos gusta presumir, pero de alguna manera terminamos con un menú francamente excepcional.</h3>          
+          </div>
+        </div>
+      </div>
+
+    <!-- FOOTER -->
+    <%- include ("./partials/footer") %>
+   
+</body>
+</html>
