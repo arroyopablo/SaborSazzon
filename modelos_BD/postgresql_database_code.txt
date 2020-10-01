@@ -1,0 +1,122 @@
+CREATE TABLE Cliente(
+
+	correo_cliente char(60) PRIMARY KEY NOT NULL,
+	contraseña_cliente char(90) NOT NULL,
+	apodo_cliente char(45),
+	nombres_cliente char(45) NOT NULL,
+	paterno_cliente char(45) NOT NULL,
+	materno_cliente char(45)
+
+);
+
+
+
+CREATE TABLE Atencion(
+
+	id_atencion char(20) PRIMARY KEY NOT NULL,
+	apodo_mesero char(45) NOT NULL,
+	correo_cliente char(45) NOT NULL,
+	fecha char(45) NOT NULL,
+	hora char(45) NOT NULL
+
+);
+
+
+
+CREATE TABLE Mesero(
+
+	correo_mesero char(60) NOT NULL,
+	contraseña_mesero char(90) NOT NULL,
+	apodo_mesero char(45) PRIMARY KEY NOT NULL,
+	nombres_mesero char(45) NOT NULL,
+	paterno_mesero char(45) NOT NULL,
+	materno_mesero char(45)
+
+);
+
+
+
+CREATE TABLE Reserva(
+
+	id_reserva char(20) PRIMARY KEY NOT NULL,
+	correo_cliente char(45) NOT NULL,
+	fecha char(45) NOT NULL,
+	hora char(45) NOT NULL
+
+);
+
+
+
+CREATE TABLE Gestion(
+
+	id_gestion char(20) PRIMARY KEY NOT NULL,
+	apodo_gestionado char(45) NOT NULL,
+	apodo_gestionador char(45) NOT NULL,
+	accion char(45) NOT NULL,
+	fecha char(45) NOT NULL,
+	hora char(45) NOT NULL
+	
+);
+
+CREATE TABLE Administrador(
+
+	correo_administrador char(60) NOT NULL,
+	contraseña_administrador char(90) NOT NULL,
+	apodo_administrador char(45) PRIMARY KEY NOT NULL,
+	nombres_administrador char(45) NOT NULL,
+	paterno_administrador char(45) NOT NULL,
+	materno_administrador char(45)
+
+);
+
+
+
+
+
+
+ALTER TABLE Cliente
+	ADD CONSTRAINT unique_apodo_cliente UNIQUE(apodo_cliente);
+
+ALTER TABLE Mesero
+	ADD CONSTRAINT unique_apodo_mesero UNIQUE(correo_mesero);
+
+ALTER TABLE Administrador
+	ADD CONSTRAINT unique_apodo_administrador UNIQUE(correo_administrador);
+
+
+
+
+
+
+
+
+
+
+
+
+ALTER TABLE Atencion
+	ADD CONSTRAINT Atencion_Cliente FOREIGN KEY (correo_cliente) REFERENCES Cliente(correo_cliente);
+
+
+ALTER TABLE Atencion
+	ADD CONSTRAINT Atencion_Mesero FOREIGN KEY (apodo_mesero) REFERENCES Mesero(apodo_mesero);
+
+
+
+
+ALTER TABLE Reserva
+	ADD CONSTRAINT Reserva_Cliente FOREIGN KEY (correo_cliente) REFERENCES Cliente(correo_cliente);
+
+
+
+
+
+ALTER TABLE Gestion
+	ADD CONSTRAINT Gestion_gestionador FOREIGN KEY (apodo_gestionador) REFERENCES Administrador(apodo_administrador);
+
+
+ALTER TABLE Gestion
+	ADD CONSTRAINT Gestion_gestionado_administrador FOREIGN KEY (apodo_gestionado) REFERENCES Administrador(apodo_administrador);
+
+ALTER TABLE Gestion
+	ADD CONSTRAINT Gestion_gestionado_mesero FOREIGN KEY (apodo_gestionado) REFERENCES Mesero(apodo_mesero);
