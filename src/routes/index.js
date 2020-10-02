@@ -4,6 +4,11 @@ const { client } = require('../models/dbConfig');
 const bcrypt = require("bcrypt");
 const session = require('express-session');
 const flash = require('express-flash');
+const passport = require('passport');
+
+const initializePassport = require('../models/passportConfig');
+
+initializePassport(passport);
 
 router.use(express.urlencoded({extended: false}));
 
@@ -17,6 +22,9 @@ router.use
   })
 );
 
+router.use(passport.initialize());
+router.use(passport.session());
+
 router.use(flash())
 
 router.get('/', (req, res) => {
@@ -27,16 +35,22 @@ router.get('/', (req, res) => {
     res.render('about', { title: 'Acerca de' });
   });
   
-  router.get('/login', (req, res) => {
+  router.get('/login', checkAuthenticated, (req, res) => {
     res.render('login', { title: 'Inicio de sesión' });
   });
   
-  router.get('/registro', (req, res) => {
+  router.get('/registro', checkAuthenticated, (req, res) => {
     res.render('registro', { title: 'Registro de usuario' });
   });
 
-  router.get('/cliente', (req, res) => {
-    res.render('cliente', { title: 'Cliente Principal' });
+  router.get('/cliente', checkNotAuthenticated, (req, res) => {
+    res.render('cliente', { user: req.user.nombres_cliente, title: 'Cliente Principal'});
+  });
+
+  router.get("/logout", (req, res) => {
+    req.logOut();
+    req.flash("success_msg", "Has cerrado sesión");
+    res.redirect("/login");
   });
 
   router.get('/loginadmin', (req, res) => {
@@ -109,5 +123,29 @@ router.get('/', (req, res) => {
       ); 
     }
   });
+
+  router.post(
+    '/login',
+    passport.authenticate("local", {
+      successRedirect: '/cliente',
+      failureRedirect: '/login',
+      failureFlash: true
+    })
+  );
+  
+  
+  function checkAuthenticated(req, res, next){
+    if (req.isAuthenticated()){
+      return res.redirect('/cliente');
+    }
+    next();
+  }
+  
+  function checkNotAuthenticated(req, res, next){
+    if (req.isAuthenticated()){
+      return next();
+    }
+    res.redirect('/login');
+  }
 
   module.exports = router;

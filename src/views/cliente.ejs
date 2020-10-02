@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><%= title %></title>
     <%- include ("./partials/head") %>
-    <link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/main.css">
 
 </head>
 <body>
     <!---menu de navegacion cliente superior-->
     <%- include ("./partials/navcliente") %>
-    
+	<h4 id="bienvenida">Bienvenido señor(a) <%= user.charAt(0).toUpperCase() + user.slice(1) %></h4>
+	
     <!---Reservacion-->
 
         
