@@ -79,8 +79,8 @@ router.get('/', (req, res) => {
       client.connect()
       client.query(
         `SELECT * FROM cliente
-          WHERE correo_cliente = '` + `$1` + `';`,
-        [],
+          WHERE correo_cliente = $1 or apodo_cliente = $2;`,
+        [correo_user, apodo_user],
         (err, results) => {
           if (err) {
             console.log(err);
@@ -88,13 +88,13 @@ router.get('/', (req, res) => {
           console.log(results.rows);
   
           if(results.rows.length > 0){
-            errors.push({message: "El usuario ya se encuentra registrado, prueba con una cédula o celular diferente"});
+            errors.push({message: "El usuario ya se encuentra registrado"});
             res.render("registro", {errors});
           }else{
             client.query(
-              `INSERT INTO cliente VALUES ($1, $2, $3, $4, $5, $6, 1, 1)
+              `INSERT INTO cliente VALUES ($1, $2, $3, $4, $5, $6)
               RETURNING correo_cliente`, 
-              [correo_user, hashedContrasena, apodo_user, nombres_user, materno_user, paterno_user],
+              [correo_user, hashedContrasena, apodo_user, nombres_user, paterno_user, materno_user],
               (err, results) => {
                 if (err) {
                   throw err;
