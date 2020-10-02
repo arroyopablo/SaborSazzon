@@ -79,8 +79,8 @@ router.get('/', (req, res) => {
       client.connect()
       client.query(
         `SELECT * FROM cliente
-          WHERE correo_cliente = '` + `$1` + `' or apodo_cliente = '` + `$3` + `';`,
-        [correo_user, hashedContrasena, apodo_user, nombres_user, paterno_user, materno_user],
+          WHERE correo_cliente = $1 or apodo_cliente = $2;`,
+        [correo_user, apodo_user],
         (err, results) => {
           if (err) {
             console.log(err);
