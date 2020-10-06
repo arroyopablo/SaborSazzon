@@ -13,6 +13,17 @@ body {
       
   }
   
+  .img-header-mesero{
+    position: relative;
+    width: 100%;
+       height: calc(100vh - 67px);
+    background:url(/img/fondo-mesero.jpg);
+    background-attachment: fixed;
+    background-position: initial;
+    background-size: cover;
+    
+    }
+
   .about-gallery{
       width: 100%;
       display: flex;
@@ -325,7 +336,21 @@ body {
 #bienvenida{
     background-color: greenyellow;
     padding: 10px;
-    margin-top: 8px;
+    margin-top: 0px;
     text-align: center;
     font-weight: bold;
+}
+
+#bienvenida_mesero{
+    background-color: rgb(47, 231, 255);
+    color: black;
+    padding: 10px;
+    margin-bottom: 0px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#page-container{
+    position: relative;
+    min-height: 100vh;
 }
