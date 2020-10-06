@@ -47,12 +47,22 @@ router.get('/', (req, res) => {
     res.render('cliente', { user: req.user.nombres_cliente, title: 'Cliente Principal'});
   });
 
+  router.get('/mesero', (req, res) => {
+    res.render('mesero', {title: 'Mesero Principal'});
+  });
+
   router.get("/logout", (req, res) => {
     req.logOut();
     req.flash("success_msg", "Has cerrado sesión");
     res.redirect("/login");
   });
 
+  router.get("/logoutMesero", (req, res) => {
+    req.logOut();
+    req.flash("success_msg", "Has cerrado sesión");
+    res.redirect("/login");
+  }); 
+  
   router.get('/loginadmin', (req, res) => {
     res.render('loginadmin', { title: 'Login Admin' });
   });
