@@ -31,12 +31,13 @@
 
 .booking-form {
 	background: #fff;
-	border-radius: 200px;
+	border-radius: 10px;
 }
 
 .booking-form>form .row.no-margin {
 	margin-right: 0px;
 	margin-left: 0px;
+	
 }
 
 .booking-form>form .row.no-margin>[class*="col-"] {
