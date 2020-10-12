@@ -35,44 +35,44 @@ router.get('/', (req, res) => {
     res.render('about', { title: 'Acerca de' });
   });
   
-  router.get('/login', checkAuthenticated, (req, res) => {
-    res.render('login', { title: 'Inicio de sesión' });
+  router.get('/loginCliente', checkAuthenticated, (req, res) => {
+    res.render('./vistasCliente/loginCliente', { title: 'Inicio de sesión' });
   });
   
-  router.get('/registro', checkAuthenticated, (req, res) => {
-    res.render('registro', { title: 'Registro de usuario' });
+  router.get('/registroCliente', checkAuthenticated, (req, res) => {
+    res.render('./vistasCliente/registroCliente', { title: 'Registro de usuario' });
   });
 
   router.get('/cliente', checkNotAuthenticated, (req, res) => {
-    res.render('cliente', { user: req.user.nombres_cliente, title: 'Cliente Principal'});
+    res.render('./vistasCliente/cliente', { user: req.user.nombres_cliente, title: 'Cliente Principal'});
   });
 
   router.get('/mesero', (req, res) => {
-    res.render('mesero', {title: 'Mesero Principal'});
+    res.render('./vistasEmpleado/mesero', {title: 'Mesero Principal'});
   });
 
-  router.get("/logout", (req, res) => {
+  router.get("/logoutCliente", (req, res) => {
     req.logOut();
     req.flash("success_msg", "Has cerrado sesión");
-    res.redirect("/login");
+    res.redirect("/loginCliente");
   });
 
   router.get("/logoutMesero", (req, res) => {
     req.logOut();
     req.flash("success_msg", "Has cerrado sesión");
-    res.redirect("/login");
+    res.redirect("/loginEmpleado");
   }); 
   
-  router.get('/loginadmin', (req, res) => {
-    res.render('loginadmin', { title: 'Login Admin' });
+  router.get('/loginEmpleado', (req, res) => {
+    res.render('./vistasEmpleado/loginEmpleado', { title: 'Login Empledo' });
   });
 
   router.get('/admin', (req, res) => {
-    res.render('admin', { title: 'Admin' });
+    res.render('./vistasEmpleado/admin', { title: 'Admin' });
   });
 
   //Registar un cliente-------------------------------------------
-  router.post('/registro',async (req, res) => {
+  router.post('/registroCliente',async (req, res) => {
     let{correo_user, contrasena_user, apodo_user, nombres_user, materno_user, paterno_user, contrasena_user2} = req.body;
 
     console.log({
@@ -81,8 +81,8 @@ router.get('/', (req, res) => {
   
     let errors =[];
   
-    if(!correo_user || !apodo_user || !contrasena_user || !contrasena_user2 || !nombres_user || !paterno_user || !materno_user){
-      errors.push({message: "Por favor llenar todos los campos"});
+    if(!correo_user || !contrasena_user || !contrasena_user2 || !nombres_user || !paterno_user ){
+      errors.push({message: "Por favor llenar todos los campos obligatorios"});
     }
   
     if(contrasena_user.length < 6){
@@ -125,7 +125,7 @@ router.get('/', (req, res) => {
                 }
                 console.log(results.rows);
                 req.flash("success_msg", "Se ha registrado exitosamente, por favor ínicia sesión");
-                res.redirect('/login');
+                res.redirect('/loginCliente');
               }
             );
           }
@@ -134,11 +134,12 @@ router.get('/', (req, res) => {
     }
   });
 
+  //Iniciar sesión de un cliente-------------------------------------------
   router.post(
-    '/login',
+    '/loginCliente',
     passport.authenticate("local", {
       successRedirect: '/cliente',
-      failureRedirect: '/login',
+      failureRedirect: '/loginCliente',
       failureFlash: true
     })
   );
@@ -155,7 +156,7 @@ router.get('/', (req, res) => {
     if (req.isAuthenticated()){
       return next();
     }
-    res.redirect('/login');
+    res.redirect('/loginCliente');
   }
 
   module.exports = router;

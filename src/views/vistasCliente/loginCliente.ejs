@@ -4,11 +4,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Iniciar sesión</title>
-	<%- include ("./partials/head") %>
+	<%- include ("../partials/head") %>
 </head>
 <body class="login">
 	<!---menu de navegacion superior-->
-	<%- include ("./partials/navigation") %>
+	<%- include ("../partials/navigation") %>
 	
 	<!---mensaje exitoso-->
 	<ul class="text-center mensaje_exito">
@@ -23,13 +23,13 @@
 		<% } %>
 	</ul>
 
-	<form action="/login" method="POST" class="formulario text-center">
+	<form action="/loginCliente" method="POST" class="formulario text-center">
 		<h1 class="pacifico grande azul">Inicia Sesión</h1>
 		<div class="contenedor">
 
 			<div class="input-contenedor">
 				<i class="	far fa-address-card icon"></i>
-				<input type="text" id="correo_login" name="correo_login" placeholder="Correo Electrónico o Apodo" required>
+				<input type="text" id="correo_o_apodo_login" name="correo_o_apodo_login" placeholder="Correo Electrónico o Apodo" required>
 			</div>
 
 			<div class="input-contenedor">
