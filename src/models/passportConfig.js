@@ -5,12 +5,12 @@ const bcrypt = require("bcrypt");
 function initialize(passport) {
   console.log("Initialized");
 
-  const authenticateUser = (correo_login, contrasena_login, done) => {
-    console.log(correo_login, contrasena_login);    
+  const authenticateUser = (correo_o_apodo_login, contrasena_login, done) => {
+    console.log(correo_o_apodo_login, contrasena_login);    
     client.connect()
     client.query(
-      `SELECT * FROM cliente WHERE correo_cliente = $1`,
-      [correo_login],
+      `SELECT * FROM cliente WHERE correo_cliente = $1 or apodo_cliente = $2`,
+      [correo_o_apodo_login, correo_o_apodo_login],
       (err, results) => {
         if (err) {
           throw err;
@@ -42,7 +42,7 @@ function initialize(passport) {
 
   passport.use(
     new LocalStrategy(
-      { usernameField: "correo_login", passwordField: "contrasena_login" },
+      { usernameField: "correo_o_apodo_login", passwordField: "contrasena_login" },
       authenticateUser
     )
   );
@@ -55,8 +55,8 @@ function initialize(passport) {
   // In deserializeUser that key is matched with the in memory array / database or any data resource.
   // The fetched object is attached to the request object as req.user
 
-  passport.deserializeUser((correo_login, done) => {
-    client.query(`SELECT * FROM cliente WHERE correo_cliente = $1`, [correo_login], (err, results) => {
+  passport.deserializeUser((correo_o_apodo_login, done) => {
+    client.query(`SELECT * FROM cliente WHERE correo_cliente = $1`, [correo_o_apodo_login], (err, results) => {
       if (err) {
         return done(err);
       }
