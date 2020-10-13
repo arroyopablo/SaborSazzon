@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <%- include ("../partials/head") %>
+	<link rel="stylesheet" href="/css/stylemenu.css">
+
+</head>
+<body class="fondo-reserva">
+    <!---menu de navegacion cliente superior-->
+    <%- include ("../partials/navcliente") %>
+
+    <p>
+
+    </p>
+<!-- Titulo Reservacion -->
+<div class="bradcam_area breadcam_bg overlay">
+    <h3>Reservacion</h3>
+</div>
+
+<!---Reservacion-->
+
+<form action="/cliente"  class="formulario text-center">
+    <h1 class="pacifico grande azul">Ven y conoce nuestro restaurante</h1>
+    <div class="contenedor">
+        
+        <div class="input-contenedor">
+            <i class="fas fa-user icon"></i>
+            <span class="form-label">Dia</span>
+            <input class="form-control" type="date" required>
+        </div>
+
+        <div class="input-contenedor">
+            <i class="fas fa-user icon"></i>
+            <span class="form-label">Hora</span>
+            <input class="form-control" type="time" required>
+        </div>
+
+        <div class="input-contenedor">
+            <i class="fas fa-address-card icon"></i>
+            <span class="form-label">Numero de Personas</span>
+            <select class="form-control">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>4</option>
+            </select>
+        </div>
+
+        <input type="submit" value="Reservar" class="button">
+        
+    </div>
+</form>
+<p>	
+</p>
+
+<div style="margin-top: 10px; position: static;">
+    <%- include ("../partials/footer") %>
+</div>
+
+</body>
