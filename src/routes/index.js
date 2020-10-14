@@ -91,6 +91,14 @@ router.get('/', checkAuthenticated, (req, res) => {
     res.render('./vistasCliente/perfilCliente', { title: 'Perfil Cliente', user: req.user});
   });
 
+  router.get('/gestionEmpleados', checkNotAuthenticated, (req, res) => {
+    res.render('./vistasEmpleado/gestionEmpleados', { title: 'Empleados', user: req.user});
+  });
+
+  router.get('/gestionReservas', checkNotAuthenticated, (req, res) => {
+    res.render('./vistasEmpleado/gestionReservas', { title: 'Reservas', user: req.user});
+  });
+
   //Registar un cliente-------------------------------------------
   router.post('/registroCliente',async (req, res) => {
     let{correo_user, contrasena_user, apodo_user, nombres_user, materno_user, paterno_user, contrasena_user2} = req.body;
