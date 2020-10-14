@@ -54,9 +54,14 @@ body {
       flex-direction: column;
   }
   
+  .logo{
+      margin-top: -30px;
+  }
+
   .container .navbar-brand {
     font-family: 'Spicy Rice', cursive;
-    font-size: 1.5rem;
+    size: 0mm;
+    height: 15px;
   }
   
   .nav-link {
@@ -69,12 +74,30 @@ body {
     width: 60%;
   }
   
-  .login{
-      background-image: url("https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
+  .loginEmpleado{
+      background-image: url("/img/login-empleado.jpg");
       background-size: cover;
       background-attachment: fixed;
   }
-  
+
+  .loginCliente{
+    background-image: url("/img/login-cliente.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    }
+
+    .registro{
+        background-image: url("/img/fondo-registro.jpg");
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
+    .fondo-reserva{
+        background-image: url("/img/reserva.jpg");
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
   .icon{
       min-width: 50px;
       font-size: 22px;
@@ -156,28 +179,41 @@ body {
       margin-top: 100px;
       padding: 3px;
   }
+
+  .datosCliente{
+      color: black;
+      padding: 1%;
+      text-align: center;
+      font-size: x-large;
+      font-weight: bolder;
+  }
+
   /*-----------------------------------------------------------------------------------------------------*/
   
     /* Dropdown Content (Hidden by Default) */
     .dropdown-content {
-      display: none;
-      position: absolute;
-      min-width: 160px;
-      background-color: #212529;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
+        display: none;
+        position: absolute;
+        min-width: 100%;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        border-radius: 10px;
+      }
+    
+      .dropdown-content a {
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: center;
     }
-  
-    .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
     
     /* Show the dropdown menu on hover */
     .dropdown:hover .dropdown-content {display: block;}
     
+    .cursor{
+        cursor: pointer;
+    }
+
     .separacion{
         padding-top: 3cm;
     }
@@ -335,8 +371,20 @@ body {
      }
 #bienvenida{
     background-color: greenyellow;
+    color: black;
     padding: 10px;
-    margin-top: 0px;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#bienvenida-cliente{
+    color: white;
+    background-color: rgba(0, 0, 0, 0.329);
+    backface-visibility: inherit;
+    font-size: 500%;
+    padding: 10px;
+    margin-top: 10px;
     text-align: center;
     font-weight: bold;
 }

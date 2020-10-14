@@ -1,36 +1,28 @@
-<!doctype html>
-<html class="no-js" lang="zxx">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <%- include ("../partials/head") %>
     <link rel="stylesheet" href="/css/stylemenu.css">
-    <!-- <link rel="manifest" href="site.webmanifest"> -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
-    <!-- Place favicon.ico in the root directory -->
 
-    <!-- CSS here -->
-    
-  
-    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
-
 <body>
-    <!--[if lte IE 9]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-        <![endif]-->
+    <!---menu de navegacion cliente superior-->
+    <%- include ("../partials/navcliente") %>
 
-   
+    <p>
 
-    <!-- bradcam_area_start -->
-    <div class="bradcam_area breadcam_bg overlay" id="menu">
-        <h3>Menu</h3>
-    </div>
-    <!-- bradcam_area_end -->
+    </p>
+<!-- Menu -->
+ <!-- bradcam_area_start -->
+ <div class="bradcam_area breadcam_bg overlay" id="menu">
+    <h3>Menú</h3>
+</div>
+<!-- bradcam_area_end -->
 
-    <!-- best_burgers_area_start  -->
+<!-- best_burgers_area_start  -->
     <div class="best_burgers_area">
         <div class="container">
             <div class="row">
@@ -135,9 +127,10 @@
             </div>
         </div>
     </div>
-    <!-- best_burgers_area_end  -->
+	
 
-   
+<div style="margin-top: 10px; position: static;">
+    <%- include ("../partials/footer") %>
+</div>
+
 </body>
-
-</html>

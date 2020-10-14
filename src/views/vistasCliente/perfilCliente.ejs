@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <%- include ("../partials/head") %>
+	<link rel="stylesheet" href="/css/stylemenu.css">
+
+</head>
+
+<body style="background-color: rgb(255, 234, 142);">
+    <!---menu de navegacion cliente superior-->
+    <%- include ("../partials/navcliente") %>
+    <p>
+
+    </p>
+    <div class="bradcam_area breadcam_bg overlay">
+        <h3>Perfil</h3>
+    </div>
+
+
+    <div style="padding-top: 5%;">
+        <p class="datosCliente">Nombre: <%= user.nombres_cliente %></p>
+        <p class="datosCliente">Apellido: <%= user.paterno_cliente + " " + user.materno_cliente %></p>
+        <p class="datosCliente">Apodo: <%= user.apodo_cliente %></p>
+        <p class="datosCliente">Correo: <%= user.correo_cliente  %></p>
+    </div>
+
+</body>
+
+</html>

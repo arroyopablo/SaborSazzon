@@ -27,11 +27,11 @@ router.use(passport.session());
 
 router.use(flash())
 
-router.get('/', (req, res) => {
+router.get('/', checkAuthenticated, (req, res) => {
     res.render('index', { title: 'Saborsazzon' });
   });
   
-  router.get('/about', (req, res) => {
+  router.get('/about', checkAuthenticated, (req, res) => {
     res.render('about', { title: 'Acerca de' });
   });
   
@@ -69,6 +69,26 @@ router.get('/', (req, res) => {
 
   router.get('/admin', (req, res) => {
     res.render('./vistasEmpleado/admin', { title: 'Admin' });
+  });
+
+  router.get('/restaurante', checkNotAuthenticated, (req, res) => {
+    res.render('./vistasCliente/restaurante', { title: 'Nuestro restaurante' });
+  });
+
+  router.get('/reservacion', checkNotAuthenticated, (req, res) => {
+    res.render('./vistasCliente/reservacion', { title: 'Reservación' });
+  });
+
+  router.get('/chat', checkNotAuthenticated, (req, res) => {
+    res.render('./vistasCliente/chatCliente', { title: 'Chat' });
+  });
+
+  router.get('/menu', checkNotAuthenticated, (req, res) => {
+    res.render('./vistasCliente/menu', { title: 'Menú' });
+  });
+
+  router.get('/perfilCliente', checkNotAuthenticated, (req, res) => {
+    res.render('./vistasCliente/perfilCliente', { title: 'Perfil Cliente', user: req.user});
   });
 
   //Registar un cliente-------------------------------------------

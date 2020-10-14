@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <%- include ("../partials/head") %>
+	<link rel="stylesheet" href="/css/stylemenu.css">
+
+</head>
+<body>
+    <!---menu de navegacion cliente superior-->
+    <%- include ("../partials/navcliente") %>
+
+    <p>
+
+    </p>
+<!-- Titulo Chat -->
+<div class="bradcam_area breadcam_bg overlay" id="chat">
+    <h3>Chat</h3>
+</div>
+
+ <!--Chat -->
+<form action="/cliente"  class="formulario text-center">
+    <h1 class="pacifico grande azul">¿Ya estas en nuestro restaurante?</h1>
+    <div class="contenedor">
+
+            <p class= "form-control-static">Inicia el chat para que uno de nuestros meseros tenga el gusto de atenderte.</p>
+        
+        <input type="submit" value="Iniciar Chat" class="button">
+        
+        
+    </div>
+</form>
+
+<div style="margin-top: 10px; position: static;">
+    <%- include ("../partials/footer") %>
+</div>
+
+</body>
