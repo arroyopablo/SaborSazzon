@@ -9,6 +9,19 @@
 <body class="loginEmpleado">
 	<!---menu de navegacion superior-->
 	<%- include ("../partials/navigation") %>
+
+	<!---mensaje exitoso-->
+	<ul class="text-center mensaje_exito">
+		<% if(messages.success_msg) { %>
+			<li><%= messages.success_msg %></li>
+			<% } %>
+		</ul>
+		
+		<ul class="text-center errores">
+		<% if(messages.error) { %>
+			<li><%= messages.error %></li>
+			<% } %>
+		</ul>
 	
 
 	<form action="/loginEmpleado" method="POST" class="formulario text-center">
@@ -17,7 +30,7 @@
 
 			<div class="input-contenedor">
 				<i class="	far fa-address-card icon"></i>
-				<input type="text" id="correo_login" name="correo_login" placeholder="Correo Electrónico o Apodo" required>
+				<input type="text" id="correo_o_apodo_login" name="correo_o_apodo_login" placeholder="Correo Electrónico o Apodo" required>
 			</div>
 
 			<div class="input-contenedor">

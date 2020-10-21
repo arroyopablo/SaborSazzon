@@ -27,27 +27,27 @@ router.use(passport.session());
 
 router.use(flash())
 
-router.get('/', checkAuthenticated, (req, res) => {
+router.get('/', checkAuthenticatedCliente, (req, res) => {
     res.render('index', { title: 'Saborsazzon' });
   });
   
-  router.get('/about', checkAuthenticated, (req, res) => {
+  router.get('/about', checkAuthenticatedCliente, (req, res) => {
     res.render('about', { title: 'Acerca de' });
   });
   
-  router.get('/loginCliente', checkAuthenticated, (req, res) => {
+  router.get('/loginCliente', checkAuthenticatedCliente, (req, res) => {
     res.render('./vistasCliente/loginCliente', { title: 'Inicio de sesión' });
   });
   
-  router.get('/registroCliente', checkAuthenticated, (req, res) => {
+  router.get('/registroCliente', checkAuthenticatedCliente, (req, res) => {
     res.render('./vistasCliente/registroCliente', { title: 'Registro de usuario' });
   });
 
-  router.get('/cliente', checkNotAuthenticated, (req, res) => {
+  router.get('/cliente', checkNotAuthenticatedCliente, (req, res) => {
     res.render('./vistasCliente/cliente', { user: req.user.nombres_cliente, title: 'Cliente Principal'});
   });
 
-  router.get('/mesero', (req, res) => {
+  router.get('/mesero', checkNotAuthenticatedMesero, (req, res) => {
     res.render('./vistasEmpleado/mesero', {title: 'Mesero Principal'});
   });
 
@@ -63,39 +63,39 @@ router.get('/', checkAuthenticated, (req, res) => {
     res.redirect("/loginEmpleado");
   }); 
   
-  router.get('/loginEmpleado', (req, res) => {
+  router.get('/loginEmpleado', checkAuthenticatedMesero, (req, res) => {
     res.render('./vistasEmpleado/loginEmpleado', { title: 'Login Empledo' });
   });
 
-  router.get('/admin', (req, res) => {
+  router.get('/admin', checkNotAuthenticatedAdmin, (req, res) => {
     res.render('./vistasEmpleado/admin', { title: 'Admin' });
   });
 
-  router.get('/restaurante', checkNotAuthenticated, (req, res) => {
+  router.get('/restaurante', checkNotAuthenticatedCliente, (req, res) => {
     res.render('./vistasCliente/restaurante', { title: 'Nuestro restaurante' });
   });
 
-  router.get('/reservacion', checkNotAuthenticated, (req, res) => {
+  router.get('/reservacion', checkNotAuthenticatedCliente, (req, res) => {
     res.render('./vistasCliente/reservacion', { title: 'Reservación' });
   });
 
-  router.get('/chat', checkNotAuthenticated, (req, res) => {
+  router.get('/chat', checkNotAuthenticatedCliente, (req, res) => {
     res.render('./vistasCliente/chatCliente', { title: 'Chat' });
   });
 
-  router.get('/menu', checkNotAuthenticated, (req, res) => {
+  router.get('/menu', checkNotAuthenticatedCliente, (req, res) => {
     res.render('./vistasCliente/menu', { title: 'Menú' });
   });
 
-  router.get('/perfilCliente', checkNotAuthenticated, (req, res) => {
+  router.get('/perfilCliente', checkNotAuthenticatedCliente, (req, res) => {
     res.render('./vistasCliente/perfilCliente', { title: 'Perfil Cliente', user: req.user});
   });
 
-  router.get('/gestionEmpleados', checkNotAuthenticated, (req, res) => {
+  router.get('/gestionEmpleados', checkNotAuthenticatedAdmin, (req, res) => {
     res.render('./vistasEmpleado/gestionEmpleados', { title: 'Empleados', user: req.user});
   });
 
-  router.get('/gestionReservas', checkNotAuthenticated, (req, res) => {
+  router.get('/gestionReservas', checkNotAuthenticatedAdmin, (req, res) => {
     res.render('./vistasEmpleado/gestionReservas', { title: 'Reservas', user: req.user});
   });
 
@@ -165,26 +165,69 @@ router.get('/', checkAuthenticated, (req, res) => {
   //Iniciar sesión de un cliente-------------------------------------------
   router.post(
     '/loginCliente',
-    passport.authenticate("local", {
+    passport.authenticate("cliente-local", {
       successRedirect: '/cliente',
       failureRedirect: '/loginCliente',
       failureFlash: true
     })
   );
+
+
+  // iniciar sesión como empleado
+  router.post(
+    '/loginEmpleado',
+    passport.authenticate("empleado-local", {
+      successRedirect: '/mesero',
+      failureRedirect: '/loginEmpleado',
+      failureFlash: true
+    })
+  );
+
+
   
   
-  function checkAuthenticated(req, res, next){
+  function checkAuthenticatedCliente(req, res, next){
     if (req.isAuthenticated()){
       return res.redirect('/cliente');
     }
     next();
   }
   
-  function checkNotAuthenticated(req, res, next){
+  function checkNotAuthenticatedCliente(req, res, next){
     if (req.isAuthenticated()){
       return next();
     }
     res.redirect('/loginCliente');
+  }
+
+  function checkNotAuthenticatedMesero(req, res, next){
+    if (req.isAuthenticated()){
+      return next();
+    }
+    res.redirect('/loginEmpleado');
+  }
+
+  function checkAuthenticatedMesero(req, res, next){
+    if (req.isAuthenticated()){
+      return res.redirect('/mesero');
+    }
+    next();
+  }
+
+
+  function checkNotAuthenticatedAdmin(req, res, next){
+    if (req.isAuthenticated()){
+      return next();
+    }
+    res.redirect('/loginEmpleado');
+  }
+
+
+  function checkAuthenticatedAdmin(req, res, next){
+    if (req.isAuthenticated()){
+      return res.redirect('/admin');
+    }
+    next();
   }
 
   module.exports = router;
