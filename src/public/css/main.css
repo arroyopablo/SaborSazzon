@@ -74,7 +74,13 @@ body {
     width: 60%;
   }
   
-  .loginEmpleado{
+  .loginMesero{
+      background-image: url("/img/login-empleado.jpg");
+      background-size: cover;
+      background-attachment: fixed;
+  }
+
+  .loginAdmin{
       background-image: url("/img/login-empleado.jpg");
       background-size: cover;
       background-attachment: fixed;
