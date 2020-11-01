@@ -180,13 +180,23 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
   // iniciar sesión como empleado
   router.post(
     '/loginMesero',
-    passport.authenticate("empleado-local", {
+    passport.authenticate("mesero-local", {
       successRedirect: '/mesero',
       failureRedirect: '/loginMesero',
       failureFlash: true
     })
   );
 
+
+  // iniciar sesión como empleado
+  router.post(
+    '/loginAdmin',
+    passport.authenticate("admin-local", {
+      successRedirect: '/admin',
+      failureRedirect: '/loginAdmin',
+      failureFlash: true
+    })
+  );
 
   
   
