@@ -48,7 +48,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
   });
 
   router.get('/mesero', checkNotAuthenticatedMesero, (req, res) => {
-    res.render('./vistasEmpleado/mesero', {title: 'Mesero Principal'});
+    res.render('./vistasMesero/mesero', {title: 'Mesero Principal'});
   });
 
   router.get("/logoutCliente", (req, res) => {
@@ -60,15 +60,19 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
   router.get("/logoutMesero", (req, res) => {
     req.logOut();
     req.flash("success_msg", "Has cerrado sesión");
-    res.redirect("/loginEmpleado");
+    res.redirect("/loginMesero");
   }); 
   
-  router.get('/loginEmpleado', checkAuthenticatedMesero, (req, res) => {
-    res.render('./vistasEmpleado/loginEmpleado', { title: 'Login Empledo' });
+  router.get('/loginMesero', checkAuthenticatedMesero, (req, res) => {
+    res.render('./vistasMesero/loginMesero', { title: 'Login Mesero' });
   });
 
   router.get('/admin', checkNotAuthenticatedAdmin, (req, res) => {
-    res.render('./vistasEmpleado/admin', { title: 'Admin' });
+    res.render('./vistasAdmin/admin', { title: 'Admin' });
+  });
+
+  router.get('/loginAdmin', checkAuthenticatedAdmin, (req, res) => {
+    res.render('./vistasAdmin/loginAdmin', { title: 'Login Admin' });
   });
 
   router.get('/restaurante', checkNotAuthenticatedCliente, (req, res) => {
@@ -92,11 +96,11 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
   });
 
   router.get('/gestionEmpleados', checkNotAuthenticatedAdmin, (req, res) => {
-    res.render('./vistasEmpleado/gestionEmpleados', { title: 'Empleados', user: req.user});
+    res.render('./vistasAdmin/gestionEmpleados', { title: 'Empleados', user: req.user});
   });
 
   router.get('/gestionReservas', checkNotAuthenticatedAdmin, (req, res) => {
-    res.render('./vistasEmpleado/gestionReservas', { title: 'Reservas', user: req.user});
+    res.render('./vistasAdmin/gestionReservas', { title: 'Reservas', user: req.user});
   });
 
   //Registar un cliente-------------------------------------------
@@ -175,10 +179,10 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
 
   // iniciar sesión como empleado
   router.post(
-    '/loginEmpleado',
+    '/loginMesero',
     passport.authenticate("empleado-local", {
       successRedirect: '/mesero',
-      failureRedirect: '/loginEmpleado',
+      failureRedirect: '/loginMesero',
       failureFlash: true
     })
   );
@@ -204,7 +208,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
     if (req.isAuthenticated()){
       return next();
     }
-    res.redirect('/loginEmpleado');
+    res.redirect('/loginMesero');
   }
 
   function checkAuthenticatedMesero(req, res, next){
@@ -219,7 +223,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
     if (req.isAuthenticated()){
       return next();
     }
-    res.redirect('/loginEmpleado');
+    res.redirect('/loginAdmin');
   }
 
 
