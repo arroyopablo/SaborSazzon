@@ -17,14 +17,14 @@ function initialize(passport) {
         }
         console.log(results.rows);
         if (results.rows.length > 0) {
-          const user = results.rows[0];
+          const cliente = results.rows[0];
 
-          bcrypt.compare(contrasena_login, user.contraseña_cliente, (err, isMatch) => {
+          bcrypt.compare(contrasena_login, cliente.contraseña_cliente, (err, isMatch) => {
             if (err) {
               console.log(err);
             }
             if (isMatch) {
-              return done(null, user);
+              return done(null, cliente);
             } else {
               //password es incorrecta
               return done(null, false, { message: "La contraseña es incorrecta" });
@@ -40,7 +40,7 @@ function initialize(passport) {
     );
   };
 
-  const authenticateEmpleado = (correo_o_apodo_login, contrasena_login, done) => {
+  const authenticateMesero = (correo_o_apodo_login, contrasena_login, done) => {
     console.log(correo_o_apodo_login, contrasena_login);    
     client.connect()
     client.query(
@@ -73,6 +73,39 @@ function initialize(passport) {
     );
   };
 
+  const authenticateAdmin = (correo_o_apodo_login, contrasena_login, done) => {
+    console.log(correo_o_apodo_login, contrasena_login);    
+    client.connect()
+    client.query(
+      `SELECT * FROM administrador WHERE correo_administrador = $1 or apodo_administrador = $2`,
+      [correo_o_apodo_login, correo_o_apodo_login],
+      (err, results) => {
+        if (err) {
+          err
+        }
+        if (results.rows.length > 0) {
+          const admin = results.rows[0];
+          bcrypt.compare(contrasena_login, admin.contraseña_administrador, (err, isMatch) => {
+            if (err) { 
+              console.log
+            }
+            if (isMatch) {
+              return done(null, admin);
+            } else {
+              //password es incorrecta
+              return done(null, false, { message: "La contraseña es incorrecta" });
+            }
+          });
+        } else {
+          // No user
+          return done(null, false, {
+            message: "No existia un empleado registrado con ese correo"
+          });
+        }
+      }
+    );
+  };
+
   passport.use('cliente-local',
     new LocalStrategy(
       { usernameField: "correo_o_apodo_login", passwordField: "contrasena_login" },
@@ -80,10 +113,17 @@ function initialize(passport) {
     )
   );
 
-  passport.use('empleado-local',
+  passport.use('mesero-local',
     new LocalStrategy(
       { usernameField: "correo_o_apodo_login", passwordField: "contrasena_login" },
-      authenticateEmpleado
+      authenticateMesero
+    )
+  );
+
+  passport.use('admin-local',
+    new LocalStrategy(
+      { usernameField: "correo_o_apodo_login", passwordField: "contrasena_login" },
+      authenticateAdmin
     )
   );
   // Stores user details inside session. serializeUser determines which data of the user
