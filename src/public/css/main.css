@@ -77,7 +77,7 @@ body {
     width: 60%;
   }
   
-  .loginEmpleado{
+  .fondo-login{
       background-image: url("/img/login-empleado.jpg");
       background-size: cover;
       background-attachment: fixed;
