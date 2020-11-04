@@ -11,7 +11,39 @@
 $(document).ready(function(){
 	// Activate tooltip
 	$('[data-toggle="tooltip"]').tooltip();
-	
+
+	var resultado = document.getElementById('mydiv').dataset.db
+	empleados = JSON.parse(resultado)
+	console.log(empleados)
+	let admins = empleados[0]
+	let meseros = empleados[1]
+	let amongAdmins = admins.length
+	let amongMeseros = meseros.length
+	var table = '';
+	let countI = 0;
+	let countJ = 0;
+	for(var i = 0; i< amongAdmins; i++){
+		var row = '<tr><td><span class="custom-checkbox"><input type="checkbox" id="checkbox'+i+'" '+ 'name="options[]" value="1"><label for="checkbox'+i+'"'+ '></label></span></td><td>'
+		+admins[i].nombres_administrador+'</td><td>'+admins[i].paterno_administrador+'</td><td>'+admins[i].materno_administrador+'</td><td>'
+		+admins[i].correo_administrador+'</td><td> Admin </td><td>'+'<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>'
+		+'<a href="#deleteEmployeeModal" class="delete" data-toggle="modal">'
+		+'<i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td></tr>';
+
+		table += row;
+		countI++; 
+	}
+	for(var j = 0; j< amongMeseros; j++){
+		countJ = countI + j
+		var row = '<tr><td><span class="custom-checkbox"><input type="checkbox" id="checkbox'+countJ+'" '+ 'name="options[]" value="1"><label for="checkbox'+countJ+'"'+ '></label></span></td><td>'
+		+meseros[j].nombres_mesero+'</td><td>'+meseros[j].paterno_mesero+'</td><td>'+meseros[j].materno_mesero+'</td><td>'
+		+meseros[j].correo_mesero+'</td><td> Mesero </td><td>'+'<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>'
+		+'<a href="#deleteEmployeeModal" class="delete" data-toggle="modal">'
+		+'<i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td></tr>';
+
+		table += row; 
+	}
+	document.getElementById("empleadoRow").innerHTML = table
+
 	// Select/Deselect checkboxes
 	var checkbox = $('table tbody input[type="checkbox"]');
 	$("#selectAll").click(function(){
@@ -25,40 +57,12 @@ $(document).ready(function(){
 			});
 		}
 	});
+	
 	checkbox.click(function(){
 		if(!this.checked){
 			$("#selectAll").prop("checked", false);
 		}
 	});
-
-	var resultado = document.getElementById('mydiv').dataset.db
-	empleados = JSON.parse(resultado)
-	console.log(empleados)
-	let admins = empleados[0]
-	let meseros = empleados[1]
-	let amongAdmins = admins.length
-	let amongMeseros = meseros.length
-	var table = '';
-	for(var i = 0; i< amongAdmins; i++){
-		var row = '<tr><td><span class="custom-checkbox"><input type="checkbox" id="checkbox1" name="options[]" value="1"><label for="checkbox1"></label></span></td><td>'
-		+admins[i].nombres_administrador+'</td><td>'+admins[i].paterno_administrador+'</td><td>'+admins[i].materno_administrador+'</td><td>'
-		+admins[i].correo_administrador+'</td><td> Admin </td><td>'+'<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>'
-		+'<a href="#deleteEmployeeModal" class="delete" data-toggle="modal">'
-		+'<i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td></tr>';
-
-		table += row; 
-	}
-	for(var j = 0; j< amongMeseros; j++){
-		var row = '<tr><td><span class="custom-checkbox"><input type="checkbox" id="checkbox1" name="options[]" value="1"><label for="checkbox1"></label></span></td><td>'
-		+meseros[j].nombres_mesero+'</td><td>'+meseros[j].paterno_mesero+'</td><td>'+meseros[j].materno_mesero+'</td><td>'
-		+meseros[j].correo_mesero+'</td><td> Mesero </td><td>'+'<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>'
-		+'<a href="#deleteEmployeeModal" class="delete" data-toggle="modal">'
-		+'<i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td></tr>';
-
-		table += row; 
-	}
-	document.getElementById("empleadoRow").innerHTML = table
-    
 
 });
 </script>
@@ -136,7 +140,7 @@ $(document).ready(function(){
 <div id="addEmployeeModal" class="modal fade">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<form>
+			<form action= "/addEmployeeModal" method="POST">
 				<div class="modal-header">						
 					<h4 class="modal-title">Añadir Empleado</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -144,29 +148,29 @@ $(document).ready(function(){
 				<div class="modal-body">					
 					<div class="form-group">
 						<label>Nombre</label>
-						<input type="text" class="form-control" required>
+						<input type="text" name = "nombres_empleado" class="form-control" required>
 					</div>
 					<div class="form-group">
 						<label>Apellido paterno</label>
-						<input type="text" class="form-control" required>
+						<input type="text" name = "paterno_empleado" class="form-control" required>
 					</div>
 					<div class="form-group">
 						<label>Apellido materno    *</label>
-						<input type="text" class="form-control" >
+						<input type="text" name = "materno_empleado" class="form-control" >
 					</div>
 					<div class="form-group">
 						<label>Email</label>
-						<input type="email" class="form-control" required>
+						<input type="email" name = "correo_empleado" class="form-control" required>
 					</div>
 					<div class="form-group">
 						<label>Rol</label>
 						<br>
 
-						<input type="radio" name="transporte2" value="1">Administrador
+						<input type="radio" name="rol_empleado" value="1">Administrador
 						
 						<br>
 
-						<input type="radio" name="transporte2" value="2" checked>Mesero
+						<input type="radio" name="rol_empleado" value="2" checked>Mesero
 						<br>
 					</div>				
 				</div>
