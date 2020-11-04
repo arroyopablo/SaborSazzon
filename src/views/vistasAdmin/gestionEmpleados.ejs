@@ -6,6 +6,7 @@
 <title><%= title %></title>
 <%- include ("../partials/head") %>
 
+<div id="mydiv" data-db=<%= db %>></div>
 <script>
 $(document).ready(function(){
 	// Activate tooltip
@@ -14,6 +15,7 @@ $(document).ready(function(){
 	// Select/Deselect checkboxes
 	var checkbox = $('table tbody input[type="checkbox"]');
 	$("#selectAll").click(function(){
+		alert("casillas");
 		if(this.checked){
 			checkbox.each(function(){
 				this.checked = true;                        
@@ -22,17 +24,36 @@ $(document).ready(function(){
 			checkbox.each(function(){
 				this.checked = false;                        
 			});
-		} 
+		}
 	});
 	checkbox.click(function(){
 		if(!this.checked){
 			$("#selectAll").prop("checked", false);
 		}
 	});
+
+	var resultado = document.getElementById('mydiv').dataset.db
+	empleados = JSON.parse(resultado)
+	
+	let amongEmpleados = empleados.length
+	var table = '';
+	for(var i = 0; i< amongEmpleados; i++){
+		console.log(empleados[i])
+		var row = '<tr><td><span class="custom-checkbox"><input type="checkbox" id="checkbox1" name="options[]" value="1"><label for="checkbox1"></label></span></td><td>'
+		+empleados[i].nombres_empleado+'</td><td>'+empleados[i].paterno_empleado+'</td><td>'+empleados[i].materno_empleado+'</td><td>'
+		+empleados[i].correo_empleado+'</td><td><a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>'
+		+'<a href="#deleteEmployeeModal" class="delete" data-toggle="modal">'
+		+'<i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td></tr>';
+
+		table += row; 
+	}
+	document.getElementById("empleadoRow").innerHTML = table
+    
+
 });
 </script>
 </head>
-<body>
+<body> 
      <!---menu de navegacion cliente superior-->
      <%- include ("../partials/navAdmin") %>
 
@@ -61,6 +82,7 @@ $(document).ready(function(){
 						<h2>Gestion de <b>Empleados</b></h2>
 					</div>
 					<div class="col-sm-6">
+						<a id="actualizarEmpleados" class="btn btn-primary" data-toggle="modal" ><i class="material-icons">&#xe923;</i> <span>Actualizar</span></a>
 						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Añadir</span></a>
 						<a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Eliminar</span></a>						
 					</div>
@@ -76,61 +98,15 @@ $(document).ready(function(){
 							</span>
 						</th>
 						<th>Nombre</th>
-						<th>Email</th>
-						<th>Telefono</th>
+						<th>Apellido paterno</th>
+						<th>Apellido materno</th>
+						<th>correo</th>
 						<th>Rol</th>
 						<th></th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox1" name="options[]" value="1">
-								<label for="checkbox1"></label>
-							</span>
-						</td>
-						<td>Sebastian Serna</td>
-						<td>sebasserna@gmail.com</td>
-						<td>3104567890</td>
-						<td>Admin</td>
-						<td>
-							<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-							<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox4" name="options[]" value="1">
-								<label for="checkbox4"></label>
-							</span>
-						</td>
-						<td>Pablo Arroyo</td>
-						<td>pabloarroyo@gmail.com</td>
-						<td>3150987654</td>
-						<td>Admin</td>
-						<td>
-							<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-							<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-						</td>
-					</tr>					
-					<tr>
-						<td>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="checkbox5" name="options[]" value="1">
-								<label for="checkbox5"></label>
-							</span>
-						</td>
-						<td>Juan Pablo Rendon</td>
-						<td>juanrendon@gmail.com</td>
-						<td>3168878200</td>
-						<td>Mesero</td>
-						<td>
-							<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-							<a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-						</td>
-					</tr> 
+				<tbody id = "empleadoRow">
+					
 				</tbody>
 			</table>
 			<div class="clearfix">
@@ -162,17 +138,28 @@ $(document).ready(function(){
 						<input type="text" class="form-control" required>
 					</div>
 					<div class="form-group">
+						<label>Apellido paterno</label>
+						<input type="text" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Apellido materno    *</label>
+						<input type="text" class="form-control" >
+					</div>
+					<div class="form-group">
 						<label>Email</label>
 						<input type="email" class="form-control" required>
 					</div>
 					<div class="form-group">
-						<label>Telefono</label>
-						<input type="text" class="form-control" required>
-					</div>
-					<div class="form-group">
 						<label>Rol</label>
-						<input type="text" class="form-control" required>
-					</div>					
+						<br>
+
+						<input type="radio" name="transporte2" value="1">Administrador
+						
+						<br>
+
+						<input type="radio" name="transporte2" value="2" checked>Mesero
+						<br>
+					</div>				
 				</div>
 				<div class="modal-footer">
 					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
