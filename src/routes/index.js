@@ -48,7 +48,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
   });
 
   router.get('/mesero', checkNotAuthenticatedMesero, (req, res) => {
-    res.render('./vistasMesero/mesero', {title: 'Mesero Principal'});
+    res.render('./vistasMesero/mesero', {user: req.user.nombres_mesero, title: 'Mesero Principal'});
   });
 
   router.get("/logoutCliente", (req, res) => {
@@ -89,8 +89,12 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
     res.render('./vistasCliente/reservacion', { title: 'Reservación' });
   });
 
-  router.get('/chat', checkNotAuthenticatedCliente, (req, res) => {
-    res.render('./vistasCliente/chatCliente', { title: 'Chat' });
+  router.get('/chatCliente', checkNotAuthenticatedCliente, (req, res) => {
+    res.render('./vistasCliente/chatCliente', { title: 'Chat Cliente', user: req.user});
+  });
+
+  router.get('/chatMesero', checkNotAuthenticatedCliente, (req, res) => {
+    res.render('./vistasMesero/chatMesero', { title: 'Chat Mesero', user: req.user});
   });
 
   router.get('/menu', checkNotAuthenticatedCliente, (req, res) => {

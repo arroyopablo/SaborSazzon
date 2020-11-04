@@ -3,6 +3,18 @@ const morgan = require('morgan');
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+  
+  // Run when client connects
+io.on('connection', (socket) => {
+    console.log('Usuario conectado')
+    socket.emit('bienvenida')
+    socket.on('nuevo_mensaje', (message) => {
+      // Dinfundimos el mensaje a todos los clientes
+      io.sockets.emit('difundir_mensaje', message)
+    })
+  });
 
 
 // settings
@@ -19,6 +31,9 @@ app.use(require('./routes'));
 // static files
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'models')));
+app.use(express.static(__dirname + 'views'))
 
 // listening the Server
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+var server = http.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+});

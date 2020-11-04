@@ -8,29 +8,64 @@
 
 </head>
 <body>
-    <!---menu de navegacion cliente superior-->
-    <%- include ("../partials/navcliente") %>
+      <!---menu de navegacion cliente superior-->
+      <%- include ("../partials/navcliente") %>
 
-    <p>
+      <p>
 
-    </p>
-<!-- Titulo Chat -->
-<div class="bradcam_area breadcam_bg overlay" id="chat">
-    <h3>Chat</h3>
-</div>
+      </p>
+  <!-- Titulo Chat -->
+  <div class="bradcam_area breadcam_bg overlay" id="chat">
+      <h3>Chat</h3>
+  </div>
 
- <!--Chat -->
-<form action="/cliente"  class="formulario text-center">
-    <h1 class="pacifico grande azul">¿Ya estas en nuestro restaurante?</h1>
-    <div class="contenedor">
+  <div class="cuerpo" id="chat2"></div>
 
-            <p class= "form-control-static">Inicia el chat para que uno de nuestros meseros tenga el gusto de atenderte.</p>
-        
-        <input type="submit" value="Iniciar Chat" class="button">
-        
-        
+  <form autocomplete="off">
+    <div id="controls">
+      <input type="text" id="username" value="<%= user.apodo_cliente %>" class="entradas" readonly/>
+      <input type="text" id="content" placeholder="Mensaje" class="entradas"/>
+      <input type="submit" value="Enviar" class="button"/>
     </div>
-</form>
+  </form>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+  var socket = io();
+  
+  // Cuando jQuery se haya cargado
+  $(function() {  
+    // Capturamos la señal de bienvenida y saludamos al usuario
+    socket.on("bienvenida", function() {  
+      $("#chat2")    
+      .empty()
+      .append("<h4 >Bienvenido al chat <%= user.apodo_cliente %></h4>")
+    })
+  })
+
+  // Capturamos el clic en el botón de enviar
+  var form = $("form").on("submit", function(e){
+    // Desactivamos el formulario para enviarlo con JS
+    e.preventDefault() 
+    // Creamos un objeto con el mensaje
+    var message = {
+      name: $("#username").val(), 
+      content: $("#content").val()
+    }
+    // Lo emitimos
+    socket.emit("nuevo_mensaje", message)
+  })
+
+  // Recuperamos el mensaje y lo añadimos al HTML
+  socket.on('difundir_mensaje', function(message) {
+    $("#chat2")
+      .append(`
+        <b>${message.name}:</b>
+        ${message.content}<br>`)
+  })
+</script>
 
 <div style="margin-top: 10px; position: static;">
     <%- include ("../partials/footer") %>
