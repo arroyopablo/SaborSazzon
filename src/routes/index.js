@@ -63,6 +63,12 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
     res.redirect("/loginMesero");
   }); 
   
+  router.get("/logoutAdmin", (req, res) => {
+    req.logOut();
+    req.flash("success_msg", "Has cerrado sesión");
+    res.redirect("/loginAdmin");
+  });
+
   router.get('/loginMesero', checkAuthenticatedMesero, (req, res) => {
     res.render('./vistasMesero/loginMesero', { title: 'Login Mesero' });
   });
