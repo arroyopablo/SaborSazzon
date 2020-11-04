@@ -100,9 +100,48 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
   router.get('/perfilCliente', checkNotAuthenticatedCliente, (req, res) => {
     res.render('./vistasCliente/perfilCliente', { title: 'Perfil Cliente', user: req.user});
   });
+  
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+ }
 
-  router.get('/gestionEmpleados', checkNotAuthenticatedAdmin, (req, res) => {
-    res.render('./vistasAdmin/gestionEmpleados', { title: 'Empleados', user: req.user});
+  async function getEmpleados(){
+    let admins = ''
+    let meseros = ''
+    client.connect()
+    client.query(
+        `SELECT * FROM administrador`,
+        (err, results) => {
+            if (err) {
+                throw err;
+            }
+            if (results.rows.length > 0) {
+              admins = results.rows
+              client.query(
+                  `SELECT * FROM mesero`,
+                  (err, results) => {
+                      if (err) {
+                          throw err;
+                      }
+                      if (results.rows.length > 0) {
+                        meseros = results.rows
+                      } else {
+                        // No empleados
+                      }
+                  }
+              )
+            } else {
+              // No empleados
+            }
+        }
+    )
+    await sleep(1000);
+    return JSON.stringify([admins, meseros])
+  }
+
+
+  router.get('/gestionEmpleados', checkNotAuthenticatedAdmin,async (req, res) => {
+    res.render('./vistasAdmin/gestionEmpleados', { title: 'Empleados', user: req.user, db:await getEmpleados()});
   });
 
   router.get('/gestionReservas', checkNotAuthenticatedAdmin, (req, res) => {
@@ -168,7 +207,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
             );
           }
         }
-      ); 
+      );
     }
   });
 
