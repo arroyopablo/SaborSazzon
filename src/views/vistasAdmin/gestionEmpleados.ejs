@@ -15,7 +15,6 @@ $(document).ready(function(){
 	// Select/Deselect checkboxes
 	var checkbox = $('table tbody input[type="checkbox"]');
 	$("#selectAll").click(function(){
-		alert("casillas");
 		if(this.checked){
 			checkbox.each(function(){
 				this.checked = true;                        
@@ -34,14 +33,25 @@ $(document).ready(function(){
 
 	var resultado = document.getElementById('mydiv').dataset.db
 	empleados = JSON.parse(resultado)
-	
-	let amongEmpleados = empleados.length
+	console.log(empleados)
+	let admins = empleados[0]
+	let meseros = empleados[1]
+	let amongAdmins = admins.length
+	let amongMeseros = meseros.length
 	var table = '';
-	for(var i = 0; i< amongEmpleados; i++){
-		console.log(empleados[i])
+	for(var i = 0; i< amongAdmins; i++){
 		var row = '<tr><td><span class="custom-checkbox"><input type="checkbox" id="checkbox1" name="options[]" value="1"><label for="checkbox1"></label></span></td><td>'
-		+empleados[i].nombres_empleado+'</td><td>'+empleados[i].paterno_empleado+'</td><td>'+empleados[i].materno_empleado+'</td><td>'
-		+empleados[i].correo_empleado+'</td><td><a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>'
+		+admins[i].nombres_administrador+'</td><td>'+admins[i].paterno_administrador+'</td><td>'+admins[i].materno_administrador+'</td><td>'
+		+admins[i].correo_administrador+'</td><td> Admin </td><td>'+'<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>'
+		+'<a href="#deleteEmployeeModal" class="delete" data-toggle="modal">'
+		+'<i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td></tr>';
+
+		table += row; 
+	}
+	for(var j = 0; j< amongMeseros; j++){
+		var row = '<tr><td><span class="custom-checkbox"><input type="checkbox" id="checkbox1" name="options[]" value="1"><label for="checkbox1"></label></span></td><td>'
+		+meseros[j].nombres_mesero+'</td><td>'+meseros[j].paterno_mesero+'</td><td>'+meseros[j].materno_mesero+'</td><td>'
+		+meseros[j].correo_mesero+'</td><td> Mesero </td><td>'+'<a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>'
 		+'<a href="#deleteEmployeeModal" class="delete" data-toggle="modal">'
 		+'<i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a></td></tr>';
 
@@ -82,7 +92,6 @@ $(document).ready(function(){
 						<h2>Gestion de <b>Empleados</b></h2>
 					</div>
 					<div class="col-sm-6">
-						<a id="actualizarEmpleados" class="btn btn-primary" data-toggle="modal" ><i class="material-icons">&#xe923;</i> <span>Actualizar</span></a>
 						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Añadir</span></a>
 						<a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Eliminar</span></a>						
 					</div>
@@ -112,9 +121,9 @@ $(document).ready(function(){
 			<div class="clearfix">
 				<ul class="pagination">
 					<li class="page-item disabled"><a href="#">Anterior</a></li>
-					<li class="page-item"><a href="#" class="page-link">1</a></li>
+					<li class="page-item active"><a href="#" class="page-link">1</a></li>
 					<li class="page-item"><a href="#" class="page-link">2</a></li>
-					<li class="page-item active"><a href="#" class="page-link">3</a></li>
+					<li class="page-item"><a href="#" class="page-link">3</a></li>
 					<li class="page-item"><a href="#" class="page-link">4</a></li>
 					<li class="page-item"><a href="#" class="page-link">5</a></li>
 					<li class="page-item"><a href="#" class="page-link">Siguiente</a></li>

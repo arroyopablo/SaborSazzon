@@ -106,23 +106,37 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
  }
 
   async function getEmpleados(){
-    let empleados = ''
+    let admins = ''
+    let meseros = ''
     client.connect()
     client.query(
-        `SELECT * FROM empleado`,
+        `SELECT * FROM administrador`,
         (err, results) => {
             if (err) {
                 throw err;
             }
             if (results.rows.length > 0) {
-              empleados = results.rows
+              admins = results.rows
+              client.query(
+                  `SELECT * FROM mesero`,
+                  (err, results) => {
+                      if (err) {
+                          throw err;
+                      }
+                      if (results.rows.length > 0) {
+                        meseros = results.rows
+                      } else {
+                        // No empleados
+                      }
+                  }
+              )
             } else {
               // No empleados
             }
         }
     )
     await sleep(1000);
-    return JSON.stringify(empleados)
+    return JSON.stringify([admins, meseros])
   }
 
 
