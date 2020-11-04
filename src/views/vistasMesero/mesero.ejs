@@ -11,12 +11,24 @@
 <body>
     <!---menu de navegacion mesero superior-->
     <%- include ("../partials/navMesero") %>
-	<h4 id="bienvenida_mesero">Bienvenido señor(a) mesero(a)</h4>
-    
+
     <div class="img-header-mesero">
-        <img src="" alt="">
+		<div class="welcome">            
+            <h4 id="bienvenida_mesero">Bienvenido señor(a) <%= user.charAt(0).toUpperCase() + user.slice(1) %></h4>
+        </div>       
     </div>
        
+    <!-- section one -->
+	<div class="container-fluid" id="about">
+		<div class="row bg-secondary p-5 text-center">
+		<div class="col-sm-6">
+			<i class="fas fa-hand-point-right fa-10x"></i>  
+		</div>
+		<div class="col-sm-6">
+			<h3>No nos gusta presumir, pero de alguna manera terminamos con un menú francamente excepcional.</h3>          
+		</div>
+		</div>
+	</div>
 
     <!-- FOOTER -->
     <%- include ("../partials/footer") %>
