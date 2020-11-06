@@ -152,6 +152,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
     res.render('./vistasAdmin/gestionReservas', { title: 'Reservas', user: req.user});
   });
 
+
   //Registar un cliente-------------------------------------------
   router.post('/registroCliente',async (req, res) => {
     let{correo_user, contrasena_user, apodo_user, nombres_user, materno_user, paterno_user, contrasena_user2} = req.body;
@@ -212,6 +213,31 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
           }
         }
       );
+    }
+  });
+
+
+  //Reserva cliente--------------------------------------------------------
+  router.post('/reservacion',async (req, res) => {
+    let{dia_user, hora_user, numpersonas_user} = req.body;
+
+    console.log({
+      dia_user, hora_user, numpersonas_user
+    });
+  
+    let errors =[];
+  
+    if(!dia_user || !hora_user || numpersonas_user ){
+      errors.push({message: "Por favor llenar todos los campos obligatorios"});
+    }
+  
+    if(numpersonas_user.length > 1){
+      errors.push({message: "Indique un numero de personas valido"});
+    }
+  
+  
+    if(errors.length > 0){
+      res.render("reservacion", {errors});
     }
   });
 
