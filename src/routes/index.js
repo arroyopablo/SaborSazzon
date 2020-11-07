@@ -238,8 +238,43 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
   
     if(errors.length > 0){
       res.render("reservacion", {errors});
+    }else{
+
+      client.connect()
+      client.query(
+      `SELECT * FROM reserva
+        WHERE dia_user = $1 or hora_user = $2;`,
+      [dia_user, hora_user],
+      (err, results) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(results.rows);
+
+        if(results.rows.length > 0){
+          errors.push({message: "Ya se encuentra reservado para esta hora"});
+          res.render("registro", {errors});
+        }else{
+          client.query(
+            `INSERT INTO reserva VALUES ($1, $2, $3)`, 
+            [dia_user, hora_user, numpersonas_user],
+            (err, results) => {
+              if (err) {
+                throw err;
+              }
+              console.log(results.rows);
+              req.flash("success_msg", "Se ha reservado exitosamente");
+              res.redirect('/cliente');
+            }
+            );
+          }
+        }
+      );
     }
   });
+
+
+
 
   //Iniciar sesión de un cliente-------------------------------------------
   router.post(
