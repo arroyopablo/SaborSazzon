@@ -180,16 +180,12 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
 
   //Reserva cliente--------------------------------------------------------
   router.post('/reservacion',async (req, res) => {
-    let{id_reservas, dia_user, hora_user, numpersonas_user} = req.body;
+    let{id_reservas, dia_user, hora_user} = req.body;
   
     let errors =[];
   
-    if(!dia_user || !hora_user || numpersonas_user ){
+    if(!dia_user || !hora_user ){
       errors.push({message: "Por favor llenar todos los campos obligatorios"});
-    }
-  
-    if(numpersonas_user.length > 1){
-      errors.push({message: "Indique un numero de personas valido"});
     }
   
   
@@ -214,7 +210,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
         }else{
           client.query(
             `INSERT INTO reserva VALUES ($1, $2, $3)`, 
-            [dia_user, hora_user, numpersonas_user],
+            [dia_user, hora_user],
             (err, results) => {
               if (err) {
                 throw err;

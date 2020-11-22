@@ -41,7 +41,6 @@ CREATE TABLE Reserva(
 	id_reserva VARCHAR(20) PRIMARY KEY NOT NULL,
 	dia_user VARCHAR(45) NOT NULL,
 	hora_user VARCHAR(45) NOT NULL
-	numpersonas_user VARCHAR(45) NOT NULL
 
 );
 
