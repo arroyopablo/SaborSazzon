@@ -113,6 +113,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
     res.render('./vistasAdmin/gestionReservas', { title: 'Reservas', user: req.user});
   });
 
+
   //Registar un cliente-------------------------------------------
   router.post('/registroCliente',async (req, res) => {
     let{correo_user, contrasena_user, apodo_user, nombres_user, materno_user, paterno_user, contrasena_user2} = req.body;
@@ -175,6 +176,66 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
       ); 
     }
   });
+
+
+  //Reserva cliente--------------------------------------------------------
+  router.post('/reservacion',async (req, res) => {
+    let{dia_user, hora_user, numpersonas_user} = req.body;
+
+    console.log({
+      dia_user, hora_user, numpersonas_user
+    });
+  
+    let errors =[];
+  
+    if(!dia_user || !hora_user || numpersonas_user ){
+      errors.push({message: "Por favor llenar todos los campos obligatorios"});
+    }
+  
+    if(numpersonas_user.length > 1){
+      errors.push({message: "Indique un numero de personas valido"});
+    }
+  
+  
+    if(errors.length > 0){
+      res.render("reservacion", {errors});
+    }else{
+
+      client.connect()
+      client.query(
+      `SELECT * FROM reserva
+        WHERE dia_user = $1 or hora_user = $2;`,
+      [dia_user, hora_user],
+      (err, results) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(results.rows);
+
+        if(results.rows.length > 0){
+          errors.push({message: "Ya se encuentra reservado para esta hora"});
+          res.render("registro", {errors});
+        }else{
+          client.query(
+            `INSERT INTO reserva VALUES ($1, $2, $3)`, 
+            [dia_user, hora_user, numpersonas_user],
+            (err, results) => {
+              if (err) {
+                throw err;
+              }
+              console.log(results.rows);
+              req.flash("success_msg", "Se ha reservado exitosamente");
+              res.redirect('/cliente');
+            }
+            );
+          }
+        }
+      );
+    }
+  });
+
+
+
 
   //Iniciar sesión de un cliente-------------------------------------------
   router.post(
