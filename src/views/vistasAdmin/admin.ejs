@@ -13,12 +13,12 @@
 <body>
 
     <!---menu de navegacion cliente superior-->
-    <%- include ("../partials/navAdmin") %>
-	
+	<%- include ("../partials/navAdmin") %>
 
 	 <!-- MAIN CONTENT -->
 	 <div class="img-header">
 		<div class="welcome">
+			<h4 id="bienvenida_admin">Bienvenido señor(a) <%= user.charAt(0).toUpperCase() + user.slice(1) %></h4>
 		</div>       
 	   </div>
 	

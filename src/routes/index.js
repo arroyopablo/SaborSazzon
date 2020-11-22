@@ -74,7 +74,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
   });
 
   router.get('/admin', checkNotAuthenticatedAdmin, (req, res) => {
-    res.render('./vistasAdmin/admin', { title: 'Admin' });
+    res.render('./vistasAdmin/admin', {user: req.user.nombres_administrador, title: 'Admin' });
   });
 
   router.get('/loginAdmin', checkAuthenticatedAdmin, (req, res) => {

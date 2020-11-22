@@ -266,6 +266,17 @@ body {
     font-weight: bold;
 }
 
+#bienvenida_admin{
+    background-color: rgba(0, 0, 0, 0.329);
+    color: white;
+    padding: 10px;
+    backface-visibility: inherit;
+    font-size: 500%;
+    margin-bottom: 0px;
+    text-align: center;
+    font-weight: bold;
+}
+
 #page-container{
     position: relative;
     min-height: 100vh;
