@@ -180,11 +180,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
 
   //Reserva cliente--------------------------------------------------------
   router.post('/reservacion',async (req, res) => {
-    let{dia_user, hora_user, numpersonas_user} = req.body;
-
-    console.log({
-      dia_user, hora_user, numpersonas_user
-    });
+    let{id_reservas, dia_user, hora_user, numpersonas_user} = req.body;
   
     let errors =[];
   
