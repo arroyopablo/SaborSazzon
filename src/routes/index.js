@@ -104,48 +104,9 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
   router.get('/perfilCliente', checkNotAuthenticatedCliente, (req, res) => {
     res.render('./vistasCliente/perfilCliente', { title: 'Perfil Cliente', user: req.user});
   });
-  
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
- }
 
-  async function getEmpleados(){
-    let admins = ''
-    let meseros = ''
-    client.connect()
-    client.query(
-        `SELECT * FROM administrador`,
-        (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if (results.rows.length > 0) {
-              admins = results.rows
-              client.query(
-                  `SELECT * FROM mesero`,
-                  (err, results) => {
-                      if (err) {
-                          throw err;
-                      }
-                      if (results.rows.length > 0) {
-                        meseros = results.rows
-                      } else {
-                        // No empleados
-                      }
-                  }
-              )
-            } else {
-              // No empleados
-            }
-        }
-    )
-    await sleep(1000);
-    return JSON.stringify([admins, meseros])
-  }
-
-
-  router.get('/gestionEmpleados', checkNotAuthenticatedAdmin,async (req, res) => {
-    res.render('./vistasAdmin/gestionEmpleados', { title: 'Empleados', user: req.user, db:await getEmpleados()});
+  router.get('/gestionEmpleados', checkNotAuthenticatedAdmin, (req, res) => {
+    res.render('./vistasAdmin/gestionEmpleados', { title: 'Empleados', user: req.user});
   });
 
   router.get('/gestionReservas', checkNotAuthenticatedAdmin, (req, res) => {
@@ -211,7 +172,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
             );
           }
         }
-      );
+      ); 
     }
   });
 
@@ -247,98 +208,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
     })
   );
 
-  router.post('/addEmployeeModal',async (req, res) => {
-      let{correo_empleado, nombres_empleado, materno_empleado, paterno_empleado, rol_empleado} = req.body;
-      
-      let contrasena_empleado = paterno_empleado;
-      let contrasena_empleado2 = paterno_empleado;
-      let nombres = nombres_empleado.split(" ");
-      let apodo = ''
-      for(var i= 0; i < nombres.length; i++){
-        apodo += nombres[i]
-      }
-      let apodo_empleado = apodo + paterno_empleado
-      
-      console.log({
-        correo_empleado, contrasena_empleado, apodo_empleado, nombres_empleado, materno_empleado, paterno_empleado, contrasena_empleado2, rol_empleado
-      });
-    
-      let errors =[];
-    
-      if(!correo_empleado || !nombres_empleado || !paterno_empleado ){
-        errors.push({message: "Por favor llenar todos los campos obligatorios"});
-      }
-    
-      if(errors.length > 0){
-        res.render("registro", {errors});
-      }else{
-        //encriptar contraseña
-        let hashedContrasena= await bcrypt.hash(contrasena_empleado, 10);
-        console.log("hashedContrasena: ");
-        console.log(hashedContrasena);
-        if(rol_empleado == 1){
-          client.connect()
-          client.query(
-            `SELECT * FROM administrador
-              WHERE correo_administrador = $1 or apodo_administrador = $2;`,
-            [correo_empleado, apodo_empleado],
-            (err, results) => {
-              if (err) {
-                throw err;
-              }
-              if(results.rows.length > 0){
-                errors.push({message: "El admin ya se encuentra registrado"});
-                res.render("registro", {errors});
-              }else{
-                client.query(
-                  `INSERT INTO administrador VALUES ($1, $2, $3, $4, $5, $6)
-                  RETURNING correo_administrador`, 
-                  [correo_empleado, hashedContrasena, apodo_empleado, nombres_empleado, paterno_empleado, materno_empleado],
-                  (err, results) => {
-                    if (err) {
-                      throw err;
-                    }
-                    console.log(results.rows);
-                    req.flash("success_msg", "Se ha registrado exitosamente el admin");
-                    res.redirect('/gestionEmpleados');
-                  }
-                );
-              }
-            }
-          );
-        } else {
-          client.connect()
-          client.query(
-            `SELECT * FROM mesero
-              WHERE correo_mesero = $1 or apodo_mesero = $2;`,
-              [correo_empleado, apodo_empleado],
-            (err, results) => {
-              if (err) {
-                throw err;
-              }
-              if(results.rows.length > 0){
-                errors.push({message: "El mesero ya se encuentra registrado"});
-                res.render("registro", {errors});
-              }else{
-                client.query(
-                  `INSERT INTO mesero VALUES ($1, $2, $3, $4, $5, $6)
-                  RETURNING correo_mesero`, 
-                  [correo_empleado, hashedContrasena, apodo_empleado, nombres_empleado, paterno_empleado, materno_empleado],
-                  (err, results) => {
-                    if (err) {
-                      throw err;
-                    }
-                    console.log(results.rows);
-                    req.flash("success_msg", "Se ha registrado exitosamente el mesero");
-                    res.redirect('/gestionEmpleados');
-                  }
-                );
-              }
-            }
-          );
-        }
-      }
-  });
+  
   
   function checkAuthenticatedCliente(req, res, next){
     if (req.isAuthenticated()){
