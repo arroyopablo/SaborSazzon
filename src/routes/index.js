@@ -180,20 +180,20 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
 
   //Reserva cliente--------------------------------------------------------
   router.post('/reservacion',async (req, res) => {
-    let{id_reservas, dia_user, hora_user} = req.body;
-  
+    const {id_reservas, dia_user, hora_user} = req.body;
+    console.log({
+      id_reservas, dia_user, hora_user
+    });
     let errors =[];
   
-    if(!dia_user || !hora_user ){
+    if(!dia_user || !hora_user){
       errors.push({message: "Por favor llenar todos los campos obligatorios"});
     }
   
   
     if(errors.length > 0){
-      res.render("reservacion", {errors});
+      res.render('/reservacion', {errors});
     }else{
-
-      client.connect()
       client.query(
       `SELECT * FROM reserva
         WHERE dia_user = $1 or hora_user = $2;`,
@@ -206,11 +206,11 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
 
         if(results.rows.length > 0){
           errors.push({message: "Ya se encuentra reservado para esta hora"});
-          res.render("registro", {errors});
+          res.render('/reservacion', {errors});
         }else{
           client.query(
             `INSERT INTO reserva VALUES ($1, $2, $3)`, 
-            [dia_user, hora_user],
+            [id_reservas, dia_user, hora_user],
             (err, results) => {
               if (err) {
                 throw err;
