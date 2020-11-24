@@ -113,6 +113,14 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
     res.render('./vistasAdmin/gestionReservas', { title: 'Reservas', user: req.user});
   });
 
+  function construirApodo(apodo, nombres, paterno, materno, contrasena){
+    
+    if(apodo === ''){
+      return nombres.trim() + paterno.slice(0,1) + materno.slice(0,1) + contrasena.slice(0,1) + contrasena.slice(-1);
+    } else {
+      return apodo;
+    }
+  }
 
   //Registar un cliente-------------------------------------------
   router.post('/registroCliente',async (req, res) => {
@@ -121,6 +129,8 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
     console.log({
       correo_user, contrasena_user, apodo_user, nombres_user, materno_user, paterno_user, contrasena_user2
     });
+
+    apodo_construido_user = construirApodo(apodo_user, nombres_user, paterno_user, materno_user , contrasena_user)
   
     let errors =[];
   
@@ -137,7 +147,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
     }
   
     if(errors.length > 0){
-      res.render("registro", {errors});
+      res.render("./vistasCliente/registroCliente", {errors});
     }else{
       //encriptar contraseña
       let hashedContrasena= await bcrypt.hash(contrasena_user, 10);
@@ -147,7 +157,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
       client.query(
         `SELECT * FROM cliente
           WHERE correo_cliente = $1 or apodo_cliente = $2;`,
-        [correo_user, apodo_user],
+        [correo_user, apodo_construido_user],
         (err, results) => {
           if (err) {
             console.log(err);
@@ -156,19 +166,19 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
   
           if(results.rows.length > 0){
             errors.push({message: "El usuario ya se encuentra registrado"});
-            res.render("registro", {errors});
+            res.render("./vistasCliente/registroCliente", {errors});
           }else{
             client.query(
               `INSERT INTO cliente VALUES ($1, $2, $3, $4, $5, $6)
               RETURNING correo_cliente`, 
-              [correo_user, hashedContrasena, apodo_user, nombres_user, paterno_user, materno_user],
+              [correo_user, hashedContrasena, apodo_construido_user, nombres_user, paterno_user, materno_user],
               (err, results) => {
                 if (err) {
                   throw err;
                 }
                 console.log(results.rows);
                 req.flash("success_msg", "Se ha registrado exitosamente, por favor ínicia sesión");
-                res.redirect('/loginCliente');
+                res.redirect('/loginCliente'); 
               }
             );
           }
@@ -180,11 +190,17 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
 
   //Reserva cliente--------------------------------------------------------
   router.post('/reservacion',async (req, res) => {
-    const {id_reservas, dia_user, hora_user} = req.body;
+    const {dia_user, hora_user} = req.body;
     console.log({
-      id_reservas, dia_user, hora_user
+     dia_user, hora_user
     });
     let errors =[];
+
+    id_reservas = dia_user + hora_user;
+
+    AM_or_PM = hora_user.slice(-2)
+    hora_int_siguiente = parseInt(hora_user.slice(2, -2)) + 1;
+    hora_siguiente_user = hora_int_siguiente.toString() + AM_or_PM;
   
     if(!dia_user || !hora_user){
       errors.push({message: "Por favor llenar todos los campos obligatorios"});
@@ -192,12 +208,12 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
   
   
     if(errors.length > 0){
-      res.render('/reservacion', {errors});
+      res.render('./vistasCliente/reservacion', {errors});
     }else{
       client.query(
       `SELECT * FROM reserva
-        WHERE dia_user = $1 or hora_user = $2;`,
-      [dia_user, hora_user],
+        WHERE dia_user = $1 and (hora_user = $2 or hora_user = $3);`,
+      [dia_user, hora_user, hora_siguiente_user],
       (err, results) => {
         if (err) {
           console.log(err);
@@ -206,7 +222,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
 
         if(results.rows.length > 0){
           errors.push({message: "Ya se encuentra reservado para esta hora"});
-          res.render('/reservacion', {errors});
+          res.render('./vistasCliente/reservacion', {errors});
         }else{
           client.query(
             `INSERT INTO reserva VALUES ($1, $2, $3)`, 

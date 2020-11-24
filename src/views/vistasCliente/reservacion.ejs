@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <%- include ("../partials/head") %>
+    <title>Reservacion</title>
+    <%- include ("../partials/head") %> 
 
     
 
@@ -13,9 +13,13 @@
     <!---menu de navegacion cliente superior-->
     <%- include ("../partials/navcliente") %>
 
-    <p>
-
-    </p>
+    	<!---mensaje de error-->
+	<ul class="text-center errores">
+		<% if(typeof errors != 'undefined'){ %> <% errors.forEach(error=>{ %>
+			<li><%= error.message  %></li>
+		<% }) %> <% } %>
+    </ul>
+    
 <!-- Titulo Reservacion -->
 <div class="bradcam_area overlay">
     <h3>Reservación</h3>
