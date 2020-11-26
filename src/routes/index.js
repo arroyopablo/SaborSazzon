@@ -190,22 +190,39 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
 
   //Reserva cliente--------------------------------------------------------
   router.post('/reservacion',async (req, res) => {
-    const {dia_user, hora_user} = req.body;
+    const {dia_user, hora_user, id_cliente} = req.body;
     console.log({
-     dia_user, hora_user
+     dia_user, hora_user, id_cliente
     });
     let errors =[];
-
-    id_reservas = dia_user + hora_user;
-
+     
     AM_or_PM = hora_user.slice(-2)
     hora_int_siguiente = parseInt(hora_user.slice(2, -2)) + 1;
     hora_siguiente_user = hora_int_siguiente.toString() + AM_or_PM;
   
     if(!dia_user || !hora_user){
-      errors.push({message: "Por favor llenar todos los campos obligatorios"});
+      errors.push({text:'Por favor llenar todos los campos obligatorios'});
     }
-  
+
+    var moment = require('moment');
+    if( moment(dia_user).isBetween( moment('2000-01-01'), moment() ) ){
+        errors.push({text: 'La fecha es incorrecta'});
+      }
+
+     client.query(`SELECT * FROM cliente
+                    WHERE correo_cliente = $1`,
+                    [id_cliente],
+                    (err, results) => {
+                      if (err) {
+                        console.log(err);
+                      }
+                      console.log(results.rows);
+                      if(results.rows.length == 0){
+                        errors.push({text: 'No es su correo'});
+                        res.render('./vistasCliente/reservacion', {errors});
+                      }
+                    });
+
   
     if(errors.length > 0){
       res.render('./vistasCliente/reservacion', {errors});
@@ -219,14 +236,16 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
           console.log(err);
         }
         console.log(results.rows);
+        
 
-        if(results.rows.length > 0){
-          errors.push({message: "Ya se encuentra reservado para esta hora"});
+        if(results.rows.length > 3){
+          errors.push({text: 'Ya hay 4 reservas para esta hora y fecha'});
           res.render('./vistasCliente/reservacion', {errors});
-        }else{
+        }
+        else{
           client.query(
-            `INSERT INTO reserva VALUES ($1, $2, $3)`, 
-            [id_reservas, dia_user, hora_user],
+            `INSERT INTO reserva (dia_user, hora_user, id_cliente) VALUES ($1, $2, $3)`, 
+            [dia_user, hora_user, id_cliente],
             (err, results) => {
               if (err) {
                 throw err;
@@ -234,7 +253,37 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
               console.log(results.rows);
               req.flash("success_msg", "Se ha reservado exitosamente");
               res.redirect('/cliente');
+
+              //Enviar corre0
+              //Requerimos el paquete
+              var nodemailer = require('nodemailer');
+
+              //Creamos el objeto de transporte
+              var transporter = nodemailer.createTransport({
+              host: "smtp.gmail.com",
+              post: "465",
+              auth: {
+              user: 'saborsazzon@gmail.com',
+              pass: 'S@borS@zzon01'
+               }
+              });
+              var mensaje = "Hola! En nuestro restaurante Sabor Sazzon tienes una reserva con los siguientes datos: "+"\n"+ "Fecha: "+ dia_user + "\n" + "Hora: " + hora_user +"\n" + "Lo esperamos a la hora y fecha indicada para tener el gusto de atenderlo." ;
+              var mailOptions = {
+                from: 'saborsazzon@gmail.com',
+                to: id_cliente,
+                subject: 'Reserva Sabor Sazzon',
+                text: mensaje
+              };
+              
+              transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log('Email enviado: ' + info.response);
+                }
+              });
             }
+
             );
           }
         }

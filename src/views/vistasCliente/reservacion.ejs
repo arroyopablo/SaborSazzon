@@ -13,12 +13,7 @@
     <!---menu de navegacion cliente superior-->
     <%- include ("../partials/navcliente") %>
 
-    	<!---mensaje de error-->
-	<ul class="text-center errores">
-		<% if(typeof errors != 'undefined'){ %> <% errors.forEach(error=>{ %>
-			<li><%= error.message  %></li>
-		<% }) %> <% } %>
-    </ul>
+  
     
 <!-- Titulo Reservacion -->
 <div class="bradcam_area overlay">
@@ -30,7 +25,7 @@
 <!---mensaje de error-->
 <ul class="text-center errores">
     <% if(typeof errors != 'undefined'){ %> <% errors.forEach(error=>{ %>
-        <li><%= error.message  %></li>
+        <li><%= error.text  %></li>
     <% }) %> <% } %>
 </ul>
 
@@ -60,6 +55,13 @@
                 <option>6PM</option>
             </select>
 
+        </div>
+
+        <div class="input-contenedor">
+            <i class="fas fa-user icon"></i>
+            <span class="form-label">Confirmacion</span>
+            <input class="form-control" type="string" id="id_cliente" name="id_cliente" placeholder="Apodo" required>
+            <small>Para confirmar su reserva agregue su correo</small>
         </div>
 
         <input type="submit" value="Reservar" class="button">
