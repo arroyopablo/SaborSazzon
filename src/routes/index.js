@@ -298,6 +298,173 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
     })
   );
 
+
+  router.post('/addEmployeeModal',async (req, res) => {
+      let{correo_empleado, nombres_empleado, materno_empleado, paterno_empleado, rol_empleado} = req.body;
+
+      let contrasena_empleado = nombres_empleado.trim() + paterno_empleado + materno_empleado;
+      let contrasena_empleado2 = nombres_empleado.trim() + paterno_empleado + materno_empleado;
+
+      let apodo_empleado = nombres_empleado.trim() + paterno_empleado.slice(0,1) + paterno_empleado.slice(-1) +
+      contrasena_empleado.slice(0,1) + contrasena_empleado.slice(-1);
+      
+      console.log({
+        correo_empleado, contrasena_empleado, apodo_empleado, nombres_empleado, materno_empleado, paterno_empleado, contrasena_empleado2, rol_empleado
+      });
+    
+      let errors =[];
+    
+      if(!correo_empleado || !nombres_empleado || !paterno_empleado ){
+        errors.push({message: "Por favor llenar todos los campos obligatorios"});
+      }
+    
+      if(errors.length > 0){
+        res.render("registro", {errors});
+      }else{
+        //encriptar contraseña
+        let hashedContrasena= await bcrypt.hash(contrasena_empleado, 10);
+        console.log("hashedContrasena: ");
+        console.log(hashedContrasena);
+        if(rol_empleado == 1){
+          client.connect()
+          client.query(
+            `SELECT * FROM administrador
+              WHERE correo_administrador = $1 or apodo_administrador = $2;`,
+            [correo_empleado, apodo_empleado],
+            (err, results) => {
+              if (err) {
+                throw err;
+              }
+              if(results.rows.length > 0){
+                errors.push({message: "El admin ya se encuentra registrado"});
+                res.render("registro", {errors});
+              }else{
+                client.query(
+                  `INSERT INTO administrador VALUES ($1, $2, $3, $4, $5, $6)
+                  RETURNING correo_administrador`, 
+                  [correo_empleado, hashedContrasena, apodo_empleado, nombres_empleado, paterno_empleado, materno_empleado],
+                  (err, results) => {
+                    if (err) {
+                      throw err;
+                    }
+                    console.log(results.rows);
+                    req.flash("success_msg", "Se ha registrado exitosamente el admin");
+                    res.redirect('/gestionEmpleados');
+                  }
+                );
+              }
+            }
+          );
+        } else {
+          client.connect()
+          client.query(
+            `SELECT * FROM mesero
+              WHERE correo_mesero = $1 or apodo_mesero = $2;`,
+              [correo_empleado, apodo_empleado],
+            (err, results) => {
+              if (err) {
+                throw err;
+              }
+              if(results.rows.length > 0){
+                errors.push({message: "El mesero ya se encuentra registrado"});
+                res.render("registro", {errors});
+              }else{
+                client.query(
+                  `INSERT INTO mesero VALUES ($1, $2, $3, $4, $5, $6)
+                  RETURNING correo_mesero`, 
+                  [correo_empleado, hashedContrasena, apodo_empleado, nombres_empleado, paterno_empleado, materno_empleado],
+                  (err, results) => {
+                    if (err) {
+                      throw err;
+                    }
+                    console.log(results.rows);
+                    req.flash("success_msg", "Se ha registrado exitosamente el mesero");
+                    res.redirect('/gestionEmpleados');
+                  }
+                );
+              }
+            }
+          );
+        }
+      }
+  });
+
+  router.post("/editEmployeeModal", (req, res) => {
+    
+    let{correo_EditEmployee, nombres_EditEmployee, materno_EditEmployee, paterno_EditEmployee, rol_EditEmployee} = req.body;
+
+    client.connect()
+    client.query(
+      `SELECT * FROM administrador
+        WHERE correo_administrador = $1`,
+      [correo_EditEmployee],
+      (err, results) => {
+        if (err) {
+          throw err;
+        }
+        if(results.rows.length > 0){
+          nombreAdmin = results.rows[j].nombre_administrador;
+          paternoAdmin = results.rows[j].paterno_administrador;
+          maternoAdmin = results.rows[j].materno_administrador;
+          hashedContrasenaAdmin = results.rows[j].contraseña_administrador;
+          apodoAdmin = results.rows[j].apodo_administrador;
+          rolAdmin = 1
+
+          if(nombres_EditEmployee === ''){
+            nombres_EditEmployee = nombreAdmin;
+          }
+          if(materno_EditEmployee === ''){
+            materno_EditEmployee = maternoAdmin;
+          }
+          if(paterno_EditEmployee === ''){
+            paterno_EditEmployee = paternoAdmin
+          }
+
+          if(rol_EditEmployee === 2){
+            client.query(
+              `DELETE FROM administrador WHERE correo_administrador = $1`, 
+              [correo_EditEmployee],
+              (err, results) => {
+                if (err) {
+                  throw err;
+                }
+                client.query(
+                  `INSERT INTO mesero VALUES ($1, $2, $3, $4, $5, $6)
+                  RETURNING correo_mesero`, 
+                  [correo_EditEmployee, hashedContrasenaAdmin, apodoAdmin, nombres_EditEmployee, paterno_EditEmployee, materno_EditEmployee],
+                  (err, results) => {
+                    if (err) {
+                      throw err;
+                    }
+                    console.log(results.rows);
+                    req.flash("success_msg", "Se ha modificado el empleado exitosamente");
+                    res.redirect('/gestionEmpleados');
+                  }
+                );
+              }
+            );
+          } else {
+            client.query(
+              `UPDATE administrador SET nombres_administrador = $1, paterno_administrador = $2, materno_administrador = $3 
+              WHERE correo_administrador = $4`, 
+              [nombres_EditEmployee, paterno_EditEmployee, materno_EditEmployee, correo_EditEmployee],
+              (err, results) => {
+                if (err) {
+                  throw err;
+                }
+                console.log(results.rows);
+                req.flash("success_msg", "Se ha modificado el empleado exitosamente");
+                res.redirect('/gestionEmpleados');
+              }
+            );
+          }
+        }
+      }
+    );
+
+
+  });
+
   
   
   function checkAuthenticatedCliente(req, res, next){
