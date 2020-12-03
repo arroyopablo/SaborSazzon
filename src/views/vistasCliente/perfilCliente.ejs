@@ -7,7 +7,7 @@
     <%- include ("../partials/head") %>
 </head>
 
-<body style="background-color: rgb(255, 234, 142);">
+<body style="background-image: rgb(129, 129, 129);">
     <!---menu de navegacion cliente superior-->
     <%- include ("../partials/navcliente") %>
     <p>
@@ -24,6 +24,10 @@
         <p class="datosCliente">Apodo: <%= user.apodo_cliente %></p>
         <p class="datosCliente">Correo: <%= user.correo_cliente  %></p>
     </div>
+
+    <div style="margin-top: 10px; position: static;">
+        <%- include ("../partials/footer") %>
+      </div>
 
 </body>
 
