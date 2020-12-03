@@ -555,8 +555,12 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
      
     AM_or_PM = hora_user.slice(-2)
     hora_int_siguiente = parseInt(hora_user.slice(0, -2)) + 1;
-    hora_siguiente_user = hora_int_siguiente.toString() + AM_or_PM;
-  
+    if(hora_int_siguiente === 12){
+      hora_siguiente_user = hora_int_siguiente.toString() + "PM";
+    } else{
+      hora_siguiente_user = hora_int_siguiente.toString() + AM_or_PM;
+    }
+
     if(!dia_user || !hora_user){
       errors.push({text:'Por favor llenar todos los campos obligatorios'});
     }
