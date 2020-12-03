@@ -13,6 +13,7 @@
 	<!---mensaje exitoso-->
 	<ul class="text-center mensaje_exito">
 	<% if(messages.success_msg) { %>
+		<li>.</li>
 		<li>	</li>
 		<li><%= messages.success_msg %></li>
 		<% } %>
@@ -21,6 +22,7 @@
 	<!---mensaje de error-->
 	<ul class="text-center errores">
 		<% if(typeof errors != 'undefined'){ %> <% errors.forEach(error=>{ %>
+			<li>.</li>
 			<li>	</li>
 			<li><%= error.text  %></li>
 		<% }) %> <% } %>
