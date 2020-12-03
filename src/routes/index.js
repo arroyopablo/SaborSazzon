@@ -764,7 +764,7 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
       }
   });
 
-  router.post("/editEmployeeModal", (req, res) => {
+  router.post("/editEmployeeModal", async (req, res) => {
     
     let{correo_EditEmployee, nombres_EditEmployee, materno_EditEmployee, paterno_EditEmployee, rol_EditEmployee} = req.body;
 
@@ -778,11 +778,12 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
           throw err;
         }
         if(results.rows.length > 0){
-          nombreAdmin = results.rows[j].nombre_administrador;
-          paternoAdmin = results.rows[j].paterno_administrador;
-          maternoAdmin = results.rows[j].materno_administrador;
-          hashedContrasenaAdmin = results.rows[j].contraseña_administrador;
-          apodoAdmin = results.rows[j].apodo_administrador;
+
+          nombreAdmin = results.rows[0].nombre_administrador;
+          paternoAdmin = results.rows[0].paterno_administrador;
+          maternoAdmin = results.rows[0].materno_administrador;
+          hashedContrasenaAdmin = results.rows[0].contraseña_administrador;
+          apodoAdmin = results.rows[0].apodo_administrador;
           rolAdmin = 1
 
           if(nombres_EditEmployee === ''){
