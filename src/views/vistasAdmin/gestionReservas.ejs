@@ -12,9 +12,6 @@
      <!---menu de navegacion cliente superior-->
      <%- include ("../partials/navAdmin") %>
 
-
-     
-
 <div class="container-xl">
 	<div class="table-responsive">
 		<div class="table-wrapper">
@@ -28,10 +25,11 @@
                 </div>
                 
 			</div>
-			<%- include ("../partials/calendario") %>
+			<%- include ("../partials/calendario", {db_dates:dates}) %> 
         </div>
         
 	</div>
+  
 </div>
  <!-- FOOTER -->
  <%- include ("../partials/footer") %>

@@ -7,17 +7,32 @@
     <%- include ("../partials/head") %>
 </head>
 <body>
-
     <!---menu de navegacion cliente superior-->
-    <%- include ("../partials/navcliente") %>
+	<%- include ("../partials/navcliente") %>
+
+	<!---mensaje exitoso-->
+	<ul class="text-center mensaje_exito">
+	<% if(messages.success_msg) { %>
+		<li>	</li>
+		<li><%= messages.success_msg %></li>
+		<% } %>
+	</ul>
+
+	<!---mensaje de error-->
+	<ul class="text-center errores">
+		<% if(typeof errors != 'undefined'){ %> <% errors.forEach(error=>{ %>
+			<li>	</li>
+			<li><%= error.text  %></li>
+		<% }) %> <% } %>
+	</ul>
 	
 
-	 <!-- MAIN CONTENT -->
-	 <div class="img-header">
+	<!-- MAIN CONTENT -->
+	<div class="img-header">
 		<div class="welcome">
 			<h4 id="bienvenida-cliente">Bienvenido señor(a) <%= user.charAt(0).toUpperCase() + user.slice(1) %></h4>
 		</div>       
-	   </div>
+	</div>
 	
 	<!-- section one -->
 	<div class="container-fluid" id="about">
