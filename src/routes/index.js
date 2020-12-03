@@ -93,6 +93,14 @@ router.get('/', checkAuthenticatedCliente, (req, res) => {
     res.render('./vistasCliente/chatCliente', { title: 'Chat Cliente', user: req.user});
   });
 
+  router.get('/interfazChatCliente', checkNotAuthenticatedCliente, (req, res) => {
+    res.render('./vistasCliente/interfazChatCliente', { title: 'Chat Cliente', user: req.user});
+  });
+
+  router.get('/interfazChatMesero', checkNotAuthenticatedMesero, (req, res) => {
+    res.render('./vistasMesero/interfazChatMesero', { title: 'Chat Mesero', user: req.user});
+  });
+
   router.get('/chatMesero', checkNotAuthenticatedCliente, (req, res) => {
     res.render('./vistasMesero/chatMesero', { title: 'Chat Mesero', user: req.user});
   });

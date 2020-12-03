@@ -1,71 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-    <%- include ("../partials/head") %>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <%- include ("../partials/head") %>
 
 </head>
+
 <body>
-    <!---menu de navegacion cliente superior-->
-    <%- include ("../partials/navMesero") %>
+  <!---menu de navegacion mesero superior-->
+  <%- include ("../partials/navMesero") %>
 
-    <!-- Titulo Chat -->
-    <div class="bradcam_area breadcam_bg overlay" id="chat">
-        <h3>Chat</h3>
-    </div>
+  <!-- Titulo Chat -->
+  <div class="bradcam_area breadcam_bg overlay" id="chat">
+    <h3>Chat</h3>
+  </div>
 
-    <div class="cuerpo" id="chat2"></div>
-
-    <form autocomplete="off">
-        <div id="controls">
-            <input type="text" id="username" value="<%= user.apodo_mesero %>" class="entradas" readonly/>
-            <input type="text" id="content" placeholder="Mensaje" class="entradas" />
-            <input type="submit" value="Enviar" class="button"/>
+  <div class="join-container">
+    <main class="join-main">
+      <form action="interfazChatMesero">
+        <div class="formulario-control">
+          <input type="hidden" name="username" id="username" value="<%= user.apodo_mesero %>" readonly />
         </div>
-    </form>
+        <div class="formulario-control">
+          <label for="mesa">Seleccione una mesa: </label>
+          <select name="mesa" id="mesa">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </div>
+        <button type="submit" class="button">Iniciar Chat</button>
+      </form>
+    </main>
+  </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-
-    <script>
-    var socket = io();
-    
-    // Cuando jQuery se haya cargado
-    $(function() {  
-        // Capturamos la señal de bienvenida y saludamos al usuario
-        socket.on("bienvenida", function() {  
-        $("#chat2")    
-        .empty()
-        .append("<h4 >Bienvenido al chat <%= user.apodo_mesero %></h4>")
-        })
-    })
-
-    // Capturamos el clic en el botón de enviar
-    var form = $("form").on("submit", function(e){
-        // Desactivamos el formulario para enviarlo con JS
-        e.preventDefault() 
-        // Creamos un objeto con el mensaje
-        var message = {
-        name: $("#username").val(), 
-        content: $("#content").val()
-        }
-        // Lo emitimos
-        socket.emit("nuevo_mensaje", message)
-    })
-
-    // Recuperamos el mensaje y lo añadimos al HTML
-    socket.on('difundir_mensaje', function(message) {
-        $("#chat2")
-        .append(`
-            <b>${message.name}:</b>
-            ${message.content}<br>`)
-    })
-    </script>
-
-    <div style="margin-top: 10px; position: static;">
-        <%- include ("../partials/footer") %>
-    </div>
+  <div style="margin-top: 10px; position: static;">
+    <%- include ("../partials/footer") %>
+  </div>
 
 </body>
+
+</html>
