@@ -7,6 +7,7 @@
 <div class="wrapper">
   <div id="calendarContainer"></div>
   <div id="organizerContainer" style="margin-left: 8px;"></div>
+  <div id="mydiv" data-dates=<%= db_dates %>></div>
 </div>
 <p>This is a more of a schedule type calendar for a website. Thought I'd share it here... So made it a library! ( that's why I didn't add an indicator that there's events in a specific day... If you have any suggestion for that though, let me know; I might end up using it )</p>
 <script>
@@ -385,132 +386,12 @@ var calendar = new Calendar("calendarContainer", "small", [ "Wednesday", 3 ], [ 
 var organizer = new Organizer("organizerContainer", calendar);
 
 currentDay = calendar.date.getDate(); // used this in order to make anyday today depending on the current today
-
+console.log("Calendario")
 // my best way of organizing data, maybe that can be the outcome of joining multiple tables in the database and then parsing them in such a manner, easier for the person to push use a date and the events of it
-data = {
-  years: [
-    {
-      int: 1999,
-      months: [
-        {
-          int: 4,
-          days: [
-            {
-              int: 28,
-              events: [
-                {
-                  startTime: "6:00",
-                  endTime: "6:30",
-                  mTime: "pm",
-                  text: "Weirdo was born"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      int: (new Date().getFullYear()),
-      months: [
-        {
-          int: (new Date().getMonth() + 1),
-          days: [
-            {
-              int: (new Date().getDate()),
-              events: [
-                {
-                  startTime: "6:00",
-                  endTime: "7:00",
-                  mTime: "am",
-                  text: "This is scheduled to show today, anyday."
-                },
-                {
-                  startTime: "5:45",
-                  endTime: "7:15",
-                  mTime: "pm",
-                  text: "WIP Library"
-                },
-                {
-                  startTime: "10:00",
-                  endTime: "11:00",
-                  mTime: "pm",
-                  text: "Probably won't fix that (time width)"
-                },
-                {
-                  startTime: "8:00",
-                  endTime: "9:00",
-                  mTime: "pm",
-                  text: "Next spam is for demonstration purposes only"
-                },
-                {
-                  startTime: "5:45",
-                  endTime: "7:15",
-                  mTime: "pm",
-                  text: "WIP Library"
-                },
-                {
-                  startTime: "10:00",
-                  endTime: "11:00",
-                  mTime: "pm",
-                  text: "Probably won't fix that (time width)"
-                },
-                {
-                  startTime: "5:45",
-                  endTime: "7:15",
-                  mTime: "pm",
-                  text: "WIP Library"
-                },
-                {
-                  startTime: "10:00",
-                  endTime: "11:00",
-                  mTime: "pm",
-                  text: "Probably won't fix that (time width)"
-                },
-                {
-                  startTime: "5:45",
-                  endTime: "7:15",
-                  mTime: "pm",
-                  text: "WIP Library"
-                },
-                {
-                  startTime: "10:00",
-                  endTime: "11:00",
-                  mTime: "pm",
-                  text: "Probably won't fix that (time width)"
-                },
-                {
-                  startTime: "5:45",
-                  endTime: "7:15",
-                  mTime: "pm",
-                  text: "WIP Library"
-                },
-                {
-                  startTime: "10:00",
-                  endTime: "11:00",
-                  mTime: "pm",
-                  text: "Probably won't fix that (time width)"
-                },
-                {
-                  startTime: "5:45",
-                  endTime: "7:15",
-                  mTime: "pm",
-                  text: "WIP Library"
-                },
-                {
-                  startTime: "10:00",
-                  endTime: "11:00",
-                  mTime: "pm",
-                  text: "Probably won't fix that (time width)"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
-};
+var resultado = document.getElementById('mydiv').dataset.dates
+data = JSON.parse(resultado)
+
+console.log(data)
 
 function showEvents() {
   theYear = -1, theMonth = -1, theDay = -1;

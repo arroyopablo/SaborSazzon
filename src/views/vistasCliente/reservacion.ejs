@@ -22,13 +22,6 @@
 
 <!---Reservacion-->
 
-<!---mensaje de error-->
-<ul class="text-center errores">
-    <% if(typeof errors != 'undefined'){ %> <% errors.forEach(error=>{ %>
-        <li><%= error.text  %></li>
-    <% }) %> <% } %>
-</ul>
-
 
 <form action="/reservacion"  class="formulario text-center" method="POST">
     <h1 class="pacifico grande azul">Ven y conoce nuestro restaurante</h1>
@@ -46,7 +39,7 @@
             <span class="form-label">Hora</span>
             <select class="form-control" type="text" id="hora_user" name="hora_user" required>
                 <option>11Am</option>
-                <option>12M</option>
+                <option>12PM</option>
                 <option>1PM</option>
                 <option>2PM</option>
                 <option>3PM</option>
@@ -60,8 +53,8 @@
         <div class="input-contenedor">
             <i class="fas fa-user icon"></i>
             <span class="form-label">Confirmacion</span>
-            <input class="form-control" type="string" id="id_cliente" name="id_cliente" placeholder="Apodo" required>
-            <small>Para confirmar su reserva agregue su correo</small>
+            <input class="form-control" type="string" id="id_cliente" name="id_cliente" placeholder="Apodo" value="<%=user%>" readonly="readonly"> 
+            <small>Si este es su correo presione el boton "Reservar"</small>
         </div>
 
         <input type="submit" value="Reservar" class="button">
